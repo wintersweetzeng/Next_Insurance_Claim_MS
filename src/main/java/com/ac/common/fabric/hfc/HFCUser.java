@@ -129,6 +129,7 @@ public class HFCUser implements User, Serializable {
 				throw new RuntimeException(String.format("Could not restore state of member %s", this.name), e);
 			}
 		}
+		
 		return null;
 	}
 

@@ -1,4 +1,4 @@
-package com.ac.common.fabric.model;
+package com.ac.common.fabric.hfc;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -11,7 +11,6 @@ import org.hyperledger.fabric.sdk.Peer;
 import org.hyperledger.fabric.sdk.User;
 import org.hyperledger.fabric_ca.sdk.HFCAClient;
 
-import com.ac.common.fabric.hfc.HFCUser;
 import com.google.common.collect.Maps;
 
 import lombok.Data;
