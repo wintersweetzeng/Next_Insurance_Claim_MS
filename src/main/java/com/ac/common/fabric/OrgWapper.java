@@ -1,23 +1,17 @@
 package com.ac.common.fabric;
 
 import java.io.File;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
-import java.security.spec.InvalidKeySpecException;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
-import org.hyperledger.fabric.sdk.helper.Utils;
-import org.hyperledger.fabric.sdkintegration.SampleUser;
+import org.hyperledger.fabric.sdk.helper.SDKUtil;
+import org.hyperledger.fabric.sdk.security.CryptoSuite;
 import org.hyperledger.fabric_ca.sdk.HFCAClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.DefaultResourceLoader;
-import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 
@@ -59,7 +53,7 @@ public class OrgWapper {
 		return Lists.newArrayList(hospitalOrgInfo, insuranceOrgInfo);
 	}
 
-	private OrgInfo initOrgInfo(OrgCommonConfig config) throws IOException, NoSuchAlgorithmException, NoSuchProviderException, InvalidKeySpecException {
+	private OrgInfo initOrgInfo(OrgCommonConfig config) throws Exception {
 
 		hospitalOrgInfo = new OrgInfo();
 
@@ -93,13 +87,18 @@ public class OrgWapper {
 
 		hospitalOrgInfo.setCaLocation(httpTLSify(config.getCaLocation()));
 
-		hospitalOrgInfo.setCaClient(
-				HFCAClient.createNewInstance(hospitalOrgInfo.getCaLocation(), hospitalOrgInfo.getCaProperties()));
-		
-		
+		HFCAClient ca = HFCAClient.createNewInstance(hospitalOrgInfo.getCaLocation(),
+				hospitalOrgInfo.getCaProperties());
+		ca.setCryptoSuite(CryptoSuite.Factory.getCryptoSuite());
+		hospitalOrgInfo.setCaClient(ca);
+
 		// admin user
 		HFCUser admin = hfcKeyStore.getMember(config.getAdmin().getName(), config.getName());
 		admin.setEnrollmentSecret(config.getAdmin().getPassword());
+		if (!admin.isEnrolled()) {
+			admin.setEnrollment(ca.enroll(admin.getName(), admin.getEnrollmentSecret()));
+			admin.setMPSID(config.getMspid());
+		}
 		hospitalOrgInfo.setAdmin(admin);
 
 		// peerAdmin user
@@ -107,19 +106,11 @@ public class OrgWapper {
 		File privateKey = null;
 		File cert = null;
 		if (StringUtils.equalsIgnoreCase("insurance", config.getId())) {
-			privateKey = loader
-					.getResource(
-							"classpath:keyStore/insurance/admin/f1022dfda62d66248343d3af08e7bb94270cda5162eae5ad587d36196054265f_sk")
-					.getFile();
-
-			cert = loader.getResource("classpath:keyStore/insurance/admin/Admin@org1.example.com-cert.pem").getFile();
+			privateKey = loader.getResource(config.getAdmin().getPrivateKey()).getFile();
+			cert = loader.getResource(config.getAdmin().getPublicKey()).getFile();
 		} else {
-			privateKey = loader
-					.getResource(
-							"classpath:keyStore/insurance/hospital/11d9df1af05581b30566223d6d6180e7a8c4276a374fe7ced03e0d4569ea61c7_sk")
-					.getFile();
-
-			cert = loader.getResource("classpath:keyStore/hospital/admin/Admin@org2.example.com-cert.pem").getFile();
+			privateKey = loader.getResource(config.getAdmin().getPrivateKey()).getFile();
+			cert = loader.getResource(config.getAdmin().getPublicKey()).getFile();
 		}
 
 		HFCUser peerOrgAdmin = hfcKeyStore.getMember(config.getName() + "Admin", config.getName(), config.getMspid(),
@@ -131,9 +122,8 @@ public class OrgWapper {
 	}
 
 	private String grpcTLSify(String location) {
-
 		location = StringUtils.trim(location);
-		Exception e = Utils.checkGrpcUrl(location);
+		Exception e = SDKUtil.checkGrpcUrl(location);
 		if (e != null) {
 			throw new RuntimeException(String.format("Bad TEST parameters for grpc url %s", location), e);
 		}
