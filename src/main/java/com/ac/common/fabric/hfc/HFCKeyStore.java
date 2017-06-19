@@ -16,12 +16,16 @@ import java.security.spec.InvalidKeySpecException;
 import java.util.Map;
 import java.util.Properties;
 
+import javax.annotation.PostConstruct;
+
 import org.apache.commons.io.IOUtils;
 import org.hyperledger.fabric.sdk.Enrollment;
+import org.springframework.stereotype.Service;
 
 import com.ac.common.fabric.utils.KeyStoreUtils;
 import com.google.common.collect.Maps;
 
+@Service
 public class HFCKeyStore {
 
 	private String file;
@@ -32,8 +36,11 @@ public class HFCKeyStore {
 		Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
 	}
 
-	public HFCKeyStore(File file) {
-		this.file = file.getAbsolutePath();
+	
+	@PostConstruct
+	private void init() throws Exception {
+		File keyStoreFile = new File(System.getProperty("java.io.tmpdir") + "/HFCkeyStore.properties");
+		file = keyStoreFile.getAbsolutePath();
 	}
 
 	/**
@@ -77,7 +84,7 @@ public class HFCKeyStore {
 		// Try to get the SampleUser state from the cache
 		HFCUser user = members.get(HFCUser.toKeyValStoreName(name, org));
 		if (null == user) {
-			user = new HFCUser(name, org, this);
+			user = new HFCUser(name, null, org, this);
 		}
 
 		return user;
@@ -100,7 +107,7 @@ public class HFCKeyStore {
 
 			// Create the SampleUser and try to restore it's state from the key
 			// value store (if found).
-			sampleUser = new HFCUser(name, org, this);
+			sampleUser = new HFCUser(name, null, org, this);
 			sampleUser.setMPSID(MSPID);
 
 			String certificate = new String(IOUtils.toByteArray(new FileInputStream(certificateFile)), "UTF-8");

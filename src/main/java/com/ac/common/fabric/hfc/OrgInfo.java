@@ -86,17 +86,14 @@ public class OrgInfo {
 	}
 
 	public Set<String> getPeerNames() {
-
 		return Collections.unmodifiableSet(peerLocations.keySet());
 	}
 
 	public Set<String> getOrdererNames() {
-
 		return Collections.unmodifiableSet(ordererLocations.keySet());
 	}
 
 	public Set<String> getEventHubNames() {
-
 		return Collections.unmodifiableSet(eventHubLocations.keySet());
 	}
 

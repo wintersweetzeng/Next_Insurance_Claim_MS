@@ -21,20 +21,23 @@ public class HFCUser implements User, Serializable {
 	private static final long serialVersionUID = 161862165256217349L;
 
 	private String name;
+	private String enrollmentSecret;
+
 	private Set<String> roles = null;
 	private String account;
 	private String affiliation;
 	private String organization;
-	private String enrollmentSecret;
+
 	private Enrollment enrollment = null;
 	private String mSPID;
 
 	private transient HFCKeyStore keyValStore;
 	private String keyValStoreName;
 
-	public HFCUser(String name, String org, HFCKeyStore fs) {
+	public HFCUser(String name, String enrollmentSecret, String org, HFCKeyStore fs) {
 
 		this.name = name;
+		this.enrollmentSecret = enrollmentSecret;
 		this.keyValStore = fs;
 		this.organization = org;
 		this.keyValStoreName = toKeyValStoreName(this.name, org);
@@ -87,13 +90,13 @@ public class HFCUser implements User, Serializable {
 	 * Save the state of this user to the key value store.
 	 */
 	public void saveState() {
-	
+
 		try (ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
 			ObjectOutputStream oos = new ObjectOutputStream(bos);
 			oos.writeObject(this);
 			oos.flush();
 			keyValStore.setValue(keyValStoreName, Hex.toHexString(bos.toByteArray()));
-			//bos.close();
+			// bos.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -129,7 +132,7 @@ public class HFCUser implements User, Serializable {
 				throw new RuntimeException(String.format("Could not restore state of member %s", this.name), e);
 			}
 		}
-		
+
 		return null;
 	}
 
