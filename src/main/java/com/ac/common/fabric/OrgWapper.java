@@ -7,7 +7,6 @@ import javax.annotation.PostConstruct;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
-import org.hyperledger.fabric.sdk.helper.SDKUtil;
 import org.hyperledger.fabric.sdk.security.CryptoSuite;
 import org.hyperledger.fabric_ca.sdk.HFCAClient;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +55,8 @@ public class OrgWapper {
 	private OrgInfo initOrgInfo(OrgCommonConfig config) throws Exception {
 
 		hospitalOrgInfo = new OrgInfo();
+		
+		hospitalOrgInfo.setId(config.getId());
 
 		String[] ps = config.getPeerLocations().split("[ \t]*,[ \t]*");
 		if (ArrayUtils.isEmpty(ps)) {
@@ -118,16 +119,14 @@ public class OrgWapper {
 		hospitalOrgInfo.setPeerAdmin(peerOrgAdmin);
 
 		return hospitalOrgInfo;
-
 	}
 
 	private String grpcTLSify(String location) {
 		location = StringUtils.trim(location);
-		Exception e = SDKUtil.checkGrpcUrl(location);
-		if (e != null) {
-			throw new RuntimeException(String.format("Bad TEST parameters for grpc url %s", location), e);
-		}
-
+//		Exception e = SDKUtil.checkGrpcUrl(location);
+//		if (e != null) {
+//			throw new RuntimeException(String.format("Bad TEST parameters for grpc url %s", location), e);
+//		}
 		return location;
 	}
 
