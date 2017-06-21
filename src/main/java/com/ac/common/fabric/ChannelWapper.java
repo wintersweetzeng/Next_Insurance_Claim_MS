@@ -73,87 +73,6 @@ public class ChannelWapper {
 		}
 	}
 
-	private Channel constructChannel(String channelName)
-			throws InvalidArgumentException, IOException, TransactionException {
-
-		OrgInfo insuranceOrg = orgWapper.getInsuranceOrgInfo();
-
-		Collection<Orderer> orderers = Lists.newArrayList();
-		for (String orderName : insuranceOrg.getOrdererNames()) {
-
-			Properties ordererProperties = this.getOrdererProperties(orderName);
-			ordererProperties.put("grpc.NettyChannelBuilderOption.enableKeepAlive",
-					new Object[] { true, 1L, TimeUnit.SECONDS, 1L, TimeUnit.SECONDS });
-
-			orderers.add(client.newOrderer(orderName, insuranceOrg.getOrdererLocation(orderName), ordererProperties));
-		}
-
-		// Just pick the first orderer in the list to create the channel.
-		Orderer anOrderer = orderers.iterator().next();
-		orderers.remove(anOrderer);
-
-		ChannelConfiguration channelConfiguration = new ChannelConfiguration(
-				loader.getResource("classpath:/keyStore/insurance/channel/foo.tx").getFile());
-
-		// Only peer Admin org
-		client.setUserContext(insuranceOrg.getPeerAdmin());
-
-		// client.getChannel(name)
-		Channel newChannel = null;
-		try {
-			newChannel = client.newChannel(channelName, anOrderer, channelConfiguration,
-					client.getChannelConfigurationSignature(channelConfiguration, insuranceOrg.getPeerAdmin()));
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			newChannel = client.newChannel(channelName);
-			newChannel.addOrderer(anOrderer);
-		}
-
-		// join insureance peer to channel
-		this.joinPeerToChannel(insuranceOrg, newChannel);
-
-		// join hospital peer to channel
-		this.joinPeerToChannel(orgWapper.getHospitalOrgInfo(), newChannel);
-
-		for (String eventHubName : insuranceOrg.getEventHubNames()) {
-			EventHub eventHub = client.newEventHub(eventHubName, insuranceOrg.getEventHubLocation(eventHubName),
-					this.getPeerProperties(insuranceOrg.getId(), "peer0"));
-			newChannel.addEventHub(eventHub);
-		}
-
-		newChannel.initialize();
-
-		return newChannel;
-	}
-
-	private void joinPeerToChannel(OrgInfo insuranceOrg, Channel newChannel)
-			throws IOException, InvalidArgumentException {
-
-		for (String peerName : insuranceOrg.getPeerNames()) {
-
-			String peerLocation = insuranceOrg.getPeerLocation(peerName);
-
-			Properties peerProperties = this.getPeerProperties(insuranceOrg.getId(), "peer0");
-			if (peerProperties == null) {
-				peerProperties = new Properties();
-			}
-			// Example of setting specific options on grpc's NettyChannelBuilder
-			peerProperties.put("grpc.NettyChannelBuilderOption.maxInboundMessageSize", 9000000);
-
-			Peer peer = client.newPeer(peerName, peerLocation, peerProperties);
-			insuranceOrg.addPeer(peer);
-
-			try {
-				newChannel.joinPeer(peer);
-			} catch (Exception ex) {
-				ex.printStackTrace();
-				newChannel.addPeer(peer);
-			}
-
-		}
-
-	}
-
 	public ChainCodeResultModel installChaincode(String chaincodeSourceLocation, String chaincodeName,
 			String chaincodeVersion, String path, Collection<Peer> peers)
 			throws InvalidArgumentException, ProposalException {
@@ -292,6 +211,87 @@ public class ChannelWapper {
 		}
 
 		return new ChainCodeResultModel(successful, failed);
+
+	}
+
+	private Channel constructChannel(String channelName)
+			throws InvalidArgumentException, IOException, TransactionException {
+
+		OrgInfo insuranceOrg = orgWapper.getInsuranceOrgInfo();
+
+		Collection<Orderer> orderers = Lists.newArrayList();
+		for (String orderName : insuranceOrg.getOrdererNames()) {
+
+			Properties ordererProperties = this.getOrdererProperties(orderName);
+			ordererProperties.put("grpc.NettyChannelBuilderOption.enableKeepAlive",
+					new Object[] { true, 1L, TimeUnit.SECONDS, 1L, TimeUnit.SECONDS });
+
+			orderers.add(client.newOrderer(orderName, insuranceOrg.getOrdererLocation(orderName), ordererProperties));
+		}
+
+		// Just pick the first orderer in the list to create the channel.
+		Orderer anOrderer = orderers.iterator().next();
+		orderers.remove(anOrderer);
+
+		ChannelConfiguration channelConfiguration = new ChannelConfiguration(
+				loader.getResource("classpath:/keyStore/insurance/channel/foo.tx").getFile());
+
+		// Only peer Admin org
+		client.setUserContext(insuranceOrg.getPeerAdmin());
+
+		// client.getChannel(name)
+		Channel newChannel = null;
+		try {
+			newChannel = client.newChannel(channelName, anOrderer, channelConfiguration,
+					client.getChannelConfigurationSignature(channelConfiguration, insuranceOrg.getPeerAdmin()));
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			newChannel = client.newChannel(channelName);
+			newChannel.addOrderer(anOrderer);
+		}
+
+		// join insureance peer to channel
+		this.joinPeerToChannel(insuranceOrg, newChannel);
+
+		// join hospital peer to channel
+		this.joinPeerToChannel(orgWapper.getHospitalOrgInfo(), newChannel);
+
+		for (String eventHubName : insuranceOrg.getEventHubNames()) {
+			EventHub eventHub = client.newEventHub(eventHubName, insuranceOrg.getEventHubLocation(eventHubName),
+					this.getPeerProperties(insuranceOrg.getId(), "peer0"));
+			newChannel.addEventHub(eventHub);
+		}
+
+		newChannel.initialize();
+
+		return newChannel;
+	}
+
+	private void joinPeerToChannel(OrgInfo insuranceOrg, Channel newChannel)
+			throws IOException, InvalidArgumentException {
+
+		for (String peerName : insuranceOrg.getPeerNames()) {
+
+			String peerLocation = insuranceOrg.getPeerLocation(peerName);
+
+			Properties peerProperties = this.getPeerProperties(insuranceOrg.getId(), "peer0");
+			if (peerProperties == null) {
+				peerProperties = new Properties();
+			}
+			// Example of setting specific options on grpc's NettyChannelBuilder
+			peerProperties.put("grpc.NettyChannelBuilderOption.maxInboundMessageSize", 9000000);
+
+			Peer peer = client.newPeer(peerName, peerLocation, peerProperties);
+			insuranceOrg.addPeer(peer);
+
+			try {
+				newChannel.joinPeer(peer);
+			} catch (Exception ex) {
+				ex.printStackTrace();
+				newChannel.addPeer(peer);
+			}
+
+		}
 
 	}
 
