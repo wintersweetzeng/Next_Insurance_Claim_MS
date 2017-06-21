@@ -27,6 +27,7 @@ import org.hyperledger.fabric.sdk.InstantiateProposalRequest;
 import org.hyperledger.fabric.sdk.Orderer;
 import org.hyperledger.fabric.sdk.Peer;
 import org.hyperledger.fabric.sdk.ProposalResponse;
+import org.hyperledger.fabric.sdk.QueryByChaincodeRequest;
 import org.hyperledger.fabric.sdk.TransactionProposalRequest;
 import org.hyperledger.fabric.sdk.exception.ChaincodeEndorsementPolicyParseException;
 import org.hyperledger.fabric.sdk.exception.InvalidArgumentException;
@@ -265,8 +266,33 @@ public class ChannelWapper {
 		return channel.sendTransaction(successful);
 	}
 
-	public Object query() {
-		return null;
+	public ChainCodeResultModel query(ChaincodeID chaincodeID, Collection<Peer> peers, String invokeMethod,
+			String[] invokeArgs) throws InvalidArgumentException, ProposalException {
+
+		QueryByChaincodeRequest queryByChaincodeRequest = client.newQueryProposalRequest();
+		queryByChaincodeRequest.setArgs(invokeArgs);
+		queryByChaincodeRequest.setFcn(invokeMethod);
+		queryByChaincodeRequest.setChaincodeID(chaincodeID);
+
+		Map<String, byte[]> tm = new HashMap<>();
+		tm.put("HyperLedgerFabric", "QueryByChaincodeRequest:JavaSDK".getBytes(UTF_8));
+		tm.put("method", "QueryByChaincodeRequest".getBytes(UTF_8));
+		queryByChaincodeRequest.setTransientMap(tm);
+
+		Collection<ProposalResponse> queryProposals = channel.queryByChaincode(queryByChaincodeRequest, peers);
+
+		Collection<ProposalResponse> successful = Lists.newArrayList();
+		Collection<ProposalResponse> failed = Lists.newArrayList();
+		for (ProposalResponse proposalResponse : queryProposals) {
+			if (!proposalResponse.isVerified() || proposalResponse.getStatus() != ProposalResponse.Status.SUCCESS) {
+				successful.add(proposalResponse);
+			} else {
+				failed.add(proposalResponse);
+			}
+		}
+
+		return new ChainCodeResultModel(successful, failed);
+
 	}
 
 	private Properties getPeerProperties(String orgName, String peerName) throws IOException {
