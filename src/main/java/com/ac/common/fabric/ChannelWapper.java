@@ -63,7 +63,6 @@ public class ChannelWapper {
 		client.setCryptoSuite(CryptoSuite.Factory.getCryptoSuite());
 
 		channel = this.constructChannel("foo");
-
 	}
 
 	@PreDestroy
