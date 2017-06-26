@@ -1,0 +1,20 @@
+# Created by .ignore support plugin (hsz.mobi)
+.apt_generated/
+.classpath
+.factorypath
+.idea/misc.xml
+.idea/workspace.xml
+.idea/
+.project
+.settings/
+target/classes/META-INF/MANIFEST.MF
+target/classes/META-INF/spring-configuration-metadata.json
+target/classes/application-hospital.properties
+target/classes/application-insurance.properties
+target/classes/com/
+target/classes/keyStore/hospital/admin/Admin@org2.example.com-cert.pem
+target/classes/keyStore/hospital/channel/
+target/classes/keyStore/insurance/
+target/test-classes/
+
+target/classes/tls/
