@@ -19,7 +19,6 @@ public class HospitalFabricAjaxController extends AbstractAjaxController {
 
     @PostMapping("/expense")
     private AjaxResult save(@RequestBody List<MedicineDetailModel> medicineDetailList) {
-
         return AjaxResult.success();
     }
 

@@ -18,3 +18,4 @@ target/classes/keyStore/insurance/
 target/test-classes/
 
 target/classes/tls/
+/.springBeans

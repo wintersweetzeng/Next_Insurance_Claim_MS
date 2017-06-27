@@ -58,7 +58,11 @@ public class ChannelWapper {
 		}
 	}
 
-	public ChainCodeResultModel installChaincode(String chaincodeSourceLocation, String chaincodeName,
+	public Collection<Peer> getAllPeers() {
+        return channel.getPeers();
+    }
+
+	public ChainCodeResultModel installChaincode(File chaincodeSourceLocation, String chaincodeName,
 			String chaincodeVersion, String path, Collection<Peer> peers)
 			throws InvalidArgumentException, ProposalException {
 
@@ -70,12 +74,11 @@ public class ChannelWapper {
 				.setPath(path).build();
 		installProposalRequest.setChaincodeID(chaincodeID);
 
-		installProposalRequest.setChaincodeSourceLocation(new File(chaincodeSourceLocation));
-
+		installProposalRequest.setChaincodeSourceLocation(chaincodeSourceLocation);
 		installProposalRequest.setChaincodeVersion(chaincodeVersion);
 
-		int numInstallProposal = 0;
-		numInstallProposal = numInstallProposal + peers.size();
+
+		//int numInstallProposal = peers.size();
 
 		Collection<ProposalResponse> responses = client.sendInstallProposal(installProposalRequest, peers);
 
