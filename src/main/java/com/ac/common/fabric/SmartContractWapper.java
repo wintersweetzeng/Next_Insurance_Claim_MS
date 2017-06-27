@@ -2,7 +2,6 @@ package com.ac.common.fabric;
 
 import com.ac.common.constant.SmartContractConstant;
 import com.ac.common.fabric.model.ChainCodeResultModel;
-import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.ResourceLoader;
@@ -22,25 +21,49 @@ public class SmartContractWapper {
     private ResourceLoader loader = new DefaultResourceLoader();
 
 
-    public boolean installHospitalSC() {
+    public ChainCodeResultModel installHospitalSC() {
 
         try {
             //smartContract\hospital
             File scFile = loader.getResource("classpath:/smartContract/hospital").getFile();
 
-            //File chaincodeSourceLocation, String chaincodeName,
-            //String chaincodeVersion, String path, Collection< Peer > peers
-            ChainCodeResultModel chainCodeResultModel = channel.installChaincode(scFile, SmartContractConstant.Hospital.CHAINCODE_NAME, SmartContractConstant.Hospital.CHAINCODE_VERSION,
+            return channel.installChaincode(scFile, SmartContractConstant.Hospital.CHAINCODE_NAME, SmartContractConstant.Hospital.CHAINCODE_VERSION,
                     SmartContractConstant.Hospital.CHAINCODE_PATH, channel.getAllPeers());
-
-            if (CollectionUtils.isEmpty(chainCodeResultModel.getFailed())) {
-                return true;
-            }
         } catch (Exception ex) {
             ex.printStackTrace();
         }
 
-        return false;
+        return null;
+    }
+
+    public ChainCodeResultModel installInsuranceSC() {
+
+        try {
+            //smartContract\hospital
+            File scFile = loader.getResource("classpath:/smartContract/insurance").getFile();
+
+            return channel.installChaincode(scFile, SmartContractConstant.Insurance.CHAINCODE_NAME, SmartContractConstant.Insurance.CHAINCODE_VERSION,
+                    SmartContractConstant.Insurance.CHAINCODE_PATH, channel.getAllPeers());
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public ChainCodeResultModel installCustomerSC() {
+
+        try {
+            //smartContract\hospital
+            File scFile = loader.getResource("classpath:/smartContract/customer").getFile();
+
+            return channel.installChaincode(scFile, SmartContractConstant.Customer.CHAINCODE_NAME, SmartContractConstant.Customer.CHAINCODE_VERSION,
+                    SmartContractConstant.Customer.CHAINCODE_PATH, channel.getAllPeers());
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        return null;
     }
 
 }

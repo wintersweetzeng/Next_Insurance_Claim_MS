@@ -251,7 +251,6 @@ public class ChannelWapper {
 		}
 
 		newChannel.initialize();
-
 		return newChannel;
 	}
 
