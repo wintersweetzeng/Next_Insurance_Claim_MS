@@ -27,111 +27,105 @@ import lombok.Getter;
 @Service
 public class OrgWapper {
 
-	@Autowired
-	private HospitalInfoConfig hospitalInfoConfig;
+    @Autowired
+    private HospitalInfoConfig hospitalInfoConfig;
 
-	@Autowired
-	private InsuranceInfoConfig insuranceInfoConfig;
+    @Autowired
+    private InsuranceInfoConfig insuranceInfoConfig;
 
-	@Getter
-	private OrgInfo hospitalOrgInfo;
+    @Getter
+    private OrgInfo hospitalOrgInfo;
 
-	@Getter
-	private OrgInfo insuranceOrgInfo;
+    @Getter
+    private OrgInfo insuranceOrgInfo;
 
-	@Autowired
-	private HFCKeyStore hfcKeyStore;
+    @Autowired
+    private HFCKeyStore hfcKeyStore;
 
-	@PostConstruct
-	private void init() throws Exception {
-		hospitalOrgInfo = this.initOrgInfo(hospitalInfoConfig);
-		insuranceOrgInfo = this.initOrgInfo(insuranceInfoConfig);
-	}
+    @PostConstruct
+    private void init() throws Exception {
+        insuranceOrgInfo = this.initOrgInfo(insuranceInfoConfig);
+        hospitalOrgInfo = this.initOrgInfo(hospitalInfoConfig);
+    }
 
-	public List<OrgInfo> getAllOrgInfo() {
-		return Lists.newArrayList(hospitalOrgInfo, insuranceOrgInfo);
-	}
+    public List<OrgInfo> getAllOrgInfo() {
+        return Lists.newArrayList(hospitalOrgInfo, insuranceOrgInfo);
+    }
 
-	private OrgInfo initOrgInfo(OrgCommonConfig config) throws Exception {
+    private OrgInfo initOrgInfo(OrgCommonConfig config) throws Exception {
 
-		hospitalOrgInfo = new OrgInfo();
-		
-		hospitalOrgInfo.setId(config.getId());
+        OrgInfo orgInfo = new OrgInfo();
 
-		String[] ps = config.getPeerLocations().split("[ \t]*,[ \t]*");
-		if (ArrayUtils.isEmpty(ps)) {
-			throw new IllegalArgumentException("Peers is empty!");
-		}
+        orgInfo.setId(config.getId());
 
-		for (String peer : ps) {
-			String[] nl = peer.split("[ \t]*@[ \t]*");
-			hospitalOrgInfo.addPeerLocation(nl[0], grpcTLSify(nl[1]));
-		}
+        String[] ps = config.getPeerLocations().split("[ \t]*,[ \t]*");
+        if (ArrayUtils.isEmpty(ps)) {
+            throw new IllegalArgumentException("Peers is empty!");
+        }
 
-		hospitalOrgInfo.setDomainName(config.getDomname());
+        for (String peer : ps) {
+            String[] nl = peer.split("[ \t]*@[ \t]*");
+            orgInfo.addPeerLocation(nl[0], grpcTLSify(nl[1]));
+        }
 
-		ps = config.getOrdererLocations().split("[ \t]*,[ \t]*");
-		if (ArrayUtils.isEmpty(ps)) {
-			throw new IllegalArgumentException("Orderer is empty!");
-		}
+        orgInfo.setDomainName(config.getDomname());
 
-		for (String orderer : ps) {
-			String[] nl = orderer.split("[ \t]*@[ \t]*");
-			hospitalOrgInfo.addOrdererLocation(nl[0], grpcTLSify(nl[1]));
-		}
+        ps = config.getOrdererLocations().split("[ \t]*,[ \t]*");
+        if (ArrayUtils.isEmpty(ps)) {
+            throw new IllegalArgumentException("Orderer is empty!");
+        }
 
-		ps = config.getEventhubLocations().split("[ \t]*,[ \t]*");
-		for (String event : ps) {
-			String[] nl = event.split("[ \t]*@[ \t]*");
-			hospitalOrgInfo.addEventHubLocation(nl[0], grpcTLSify(nl[1]));
-		}
+        for (String orderer : ps) {
+            String[] nl = orderer.split("[ \t]*@[ \t]*");
+            orgInfo.addOrdererLocation(nl[0], grpcTLSify(nl[1]));
+        }
 
-		hospitalOrgInfo.setCaLocation(httpTLSify(config.getCaLocation()));
+        ps = config.getEventhubLocations().split("[ \t]*,[ \t]*");
+        for (String event : ps) {
+            String[] nl = event.split("[ \t]*@[ \t]*");
+            orgInfo.addEventHubLocation(nl[0], grpcTLSify(nl[1]));
+        }
 
-		HFCAClient ca = HFCAClient.createNewInstance(hospitalOrgInfo.getCaLocation(),
-				hospitalOrgInfo.getCaProperties());
-		ca.setCryptoSuite(CryptoSuite.Factory.getCryptoSuite());
-		hospitalOrgInfo.setCaClient(ca);
+        orgInfo.setCaLocation(httpTLSify(config.getCaLocation()));
 
-		// admin user
-		HFCUser admin = hfcKeyStore.getMember(config.getAdmin().getName(), config.getName());
-		admin.setEnrollmentSecret(config.getAdmin().getPassword());
-		if (!admin.isEnrolled()) {
-			admin.setEnrollment(ca.enroll(admin.getName(), admin.getEnrollmentSecret()));
-			admin.setMPSID(config.getMspid());
-		}
-		hospitalOrgInfo.setAdmin(admin);
+        HFCAClient ca = HFCAClient.createNewInstance(orgInfo.getCaLocation(),
+                orgInfo.getCaProperties());
+        ca.setCryptoSuite(CryptoSuite.Factory.getCryptoSuite());
+        orgInfo.setCaClient(ca);
 
-		// peerAdmin user
-		ResourceLoader loader = new DefaultResourceLoader();
-		File privateKey = null;
-		File cert = null;
-		if (StringUtils.equalsIgnoreCase("insurance", config.getId())) {
-			privateKey = loader.getResource(config.getAdmin().getPrivateKey()).getFile();
-			cert = loader.getResource(config.getAdmin().getPublicKey()).getFile();
-		} else {
-			privateKey = loader.getResource(config.getAdmin().getPrivateKey()).getFile();
-			cert = loader.getResource(config.getAdmin().getPublicKey()).getFile();
-		}
+        // admin user
+        HFCUser admin = hfcKeyStore.getMember(config.getAdmin().getName(), config.getName());
+        admin.setEnrollmentSecret(config.getAdmin().getPassword());
+        if (!admin.isEnrolled()) {
+            admin.setEnrollment(ca.enroll(admin.getName(), admin.getEnrollmentSecret()));
+            admin.setMPSID(config.getMspid());
+        }
+        orgInfo.setAdmin(admin);
 
-		HFCUser peerOrgAdmin = hfcKeyStore.getMember(config.getName() + "Admin", config.getName(), config.getMspid(),
-				privateKey, cert);
-		hospitalOrgInfo.setPeerAdmin(peerOrgAdmin);
+        // peerAdmin user
+        ResourceLoader loader = new DefaultResourceLoader();
 
-		return hospitalOrgInfo;
-	}
+        File privateKey = loader.getResource(config.getAdmin().getPrivateKey()).getFile();
+        File cert = loader.getResource(config.getAdmin().getPublicKey()).getFile();
 
-	private String grpcTLSify(String location) {
-		location = StringUtils.trim(location);
+        HFCUser peerOrgAdmin = hfcKeyStore.getMember(config.getName() + "Admin", config.getName(), config.getMspid(),
+                privateKey, cert);
+        orgInfo.setPeerAdmin(peerOrgAdmin);
+
+        return orgInfo;
+    }
+
+    private String grpcTLSify(String location) {
+        location = StringUtils.trim(location);
 //		Exception e = SDKUtil.checkGrpcUrl(location);
 //		if (e != null) {
 //			throw new RuntimeException(String.format("Bad TEST parameters for grpc url %s", location), e);
 //		}
-		return location;
-	}
+        return location;
+    }
 
-	private String httpTLSify(String location) {
-		return StringUtils.trim(location);
-	}
+    private String httpTLSify(String location) {
+        return StringUtils.trim(location);
+    }
 
 }
