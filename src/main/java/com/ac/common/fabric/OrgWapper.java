@@ -1,10 +1,15 @@
 package com.ac.common.fabric;
 
-import java.io.File;
-import java.util.List;
-
-import javax.annotation.PostConstruct;
-
+import com.ac.common.fabric.config.HospitalInfoConfig;
+import com.ac.common.fabric.config.InsuranceInfoConfig;
+import com.ac.common.fabric.config.OrgCommonConfig;
+import com.ac.common.fabric.hfc.HFCKeyStore;
+import com.ac.common.fabric.hfc.HFCUser;
+import com.ac.common.fabric.hfc.OrgInfo;
+import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
+import io.netty.util.internal.StringUtil;
+import lombok.Getter;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.hyperledger.fabric.sdk.security.CryptoSuite;
@@ -14,15 +19,10 @@ import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 
-import com.ac.common.fabric.config.HospitalInfoConfig;
-import com.ac.common.fabric.config.InsuranceInfoConfig;
-import com.ac.common.fabric.config.OrgCommonConfig;
-import com.ac.common.fabric.hfc.HFCKeyStore;
-import com.ac.common.fabric.hfc.HFCUser;
-import com.ac.common.fabric.hfc.OrgInfo;
-import com.google.common.collect.Lists;
-
-import lombok.Getter;
+import javax.annotation.PostConstruct;
+import java.io.File;
+import java.util.List;
+import java.util.Properties;
 
 @Service
 public class OrgWapper {
@@ -41,6 +41,8 @@ public class OrgWapper {
 
     @Autowired
     private HFCKeyStore hfcKeyStore;
+
+    private ResourceLoader loader = new DefaultResourceLoader();
 
     @PostConstruct
     private void init() throws Exception {
@@ -87,6 +89,14 @@ public class OrgWapper {
         }
 
         orgInfo.setCaLocation(httpTLSify(config.getCaLocation()));
+        //CAproperty
+        String caName = String.join("", "ca.", config.getDomname(), "-cert.pem");
+
+        File caPath = loader.getResource("classpath:/keyStore/" + config.getId() + "/ca/" + caName).getFile();
+        Properties properties = new Properties();
+        properties.setProperty("pemFile", caPath.getAbsolutePath());
+        properties.setProperty("allowAllHostNames", "true");
+        orgInfo.setCaProperties(properties);
 
         HFCAClient ca = HFCAClient.createNewInstance(orgInfo.getCaLocation(),
                 orgInfo.getCaProperties());
@@ -97,14 +107,13 @@ public class OrgWapper {
         HFCUser admin = hfcKeyStore.getMember(config.getAdmin().getName(), config.getName());
         admin.setEnrollmentSecret(config.getAdmin().getPassword());
         if (!admin.isEnrolled()) {
-            admin.setEnrollment(ca.enroll(admin.getName(), admin.getEnrollmentSecret()));
+            // admin.setEnrollment(ca.enroll(admin.getName(), admin.getEnrollmentSecret()));
+            admin.setEnrollment(ca.enroll("admin", "adminpw"));
             admin.setMPSID(config.getMspid());
         }
         orgInfo.setAdmin(admin);
 
         // peerAdmin user
-        ResourceLoader loader = new DefaultResourceLoader();
-
         File privateKey = loader.getResource(config.getAdmin().getPrivateKey()).getFile();
         File cert = loader.getResource(config.getAdmin().getPublicKey()).getFile();
 

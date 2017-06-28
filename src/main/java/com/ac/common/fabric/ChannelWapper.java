@@ -209,17 +209,15 @@ public class ChannelWapper {
 
 		Collection<Orderer> orderers = Lists.newArrayList();
 		for (String orderName : insuranceOrg.getOrdererNames()) {
-
 			Properties ordererProperties = this.getOrdererProperties(orderName);
 			ordererProperties.put("grpc.NettyChannelBuilderOption.enableKeepAlive",
 					new Object[] { true, 1L, TimeUnit.SECONDS, 1L, TimeUnit.SECONDS });
-
 			orderers.add(client.newOrderer(orderName, insuranceOrg.getOrdererLocation(orderName), ordererProperties));
 		}
 
 		// Just pick the first orderer in the list to create the channel.
 		Orderer anOrderer = orderers.iterator().next();
-		orderers.remove(anOrderer);
+		//orderers.remove(anOrderer);
 
 		ChannelConfiguration channelConfiguration = new ChannelConfiguration(
 				loader.getResource("classpath:/keyStore/insurance/channel/foo.tx").getFile());
@@ -233,7 +231,7 @@ public class ChannelWapper {
 			newChannel = client.newChannel(channelName, anOrderer, channelConfiguration,
 					client.getChannelConfigurationSignature(channelConfiguration, insuranceOrg.getPeerAdmin()));
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			//ex.printStackTrace();
 			newChannel = client.newChannel(channelName);
 			newChannel.addOrderer(anOrderer);
 		}
@@ -246,11 +244,14 @@ public class ChannelWapper {
 
 		for (String eventHubName : insuranceOrg.getEventHubNames()) {
 			EventHub eventHub = client.newEventHub(eventHubName, insuranceOrg.getEventHubLocation(eventHubName),
-					this.getPeerProperties(insuranceOrg.getId(), "peer0"));
+					this.getPeerProperties(insuranceOrg.getId(), eventHubName));
 			newChannel.addEventHub(eventHub);
 		}
 
-		newChannel.initialize();
+		if (!newChannel.isInitialized()) {
+			newChannel.initialize();
+		}
+
 		return newChannel;
 	}
 
@@ -260,11 +261,8 @@ public class ChannelWapper {
 		for (String peerName : insuranceOrg.getPeerNames()) {
 
 			String peerLocation = insuranceOrg.getPeerLocation(peerName);
+			Properties peerProperties = this.getPeerProperties(insuranceOrg.getId(), peerName);
 
-			Properties peerProperties = this.getPeerProperties(insuranceOrg.getId(), "peer0");
-			if (peerProperties == null) {
-				peerProperties = new Properties();
-			}
 			// Example of setting specific options on grpc's NettyChannelBuilder
 			peerProperties.put("grpc.NettyChannelBuilderOption.maxInboundMessageSize", 9000000);
 
@@ -274,7 +272,7 @@ public class ChannelWapper {
 			try {
 				newChannel.joinPeer(peer);
 			} catch (Exception ex) {
-				ex.printStackTrace();
+				//ex.printStackTrace();
 				newChannel.addPeer(peer);
 			}
 
@@ -284,8 +282,7 @@ public class ChannelWapper {
 
 	private Properties getPeerProperties(String orgName, String peerName) throws IOException {
 
-		File cert = loader.getResource(String.format("classpath:/tls/peer/%s/%s/server.crt", orgName, peerName))
-				.getFile();
+		File cert = loader.getResource(String.format("classpath:/tls/peer/%s/%s/server.crt", orgName, peerName)).getFile();
 		if (!cert.exists()) {
 			throw new RuntimeException(String.format("Missing cert file for: %s. Could not find at location: %s",
 					peerName, cert.getAbsolutePath()));
