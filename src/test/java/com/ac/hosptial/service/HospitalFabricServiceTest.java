@@ -1,5 +1,6 @@
 package com.ac.hosptial.service;
 
+import com.ac.common.fabric.ChannelWapper;
 import com.ac.common.fabric.SmartContractWapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,9 +21,19 @@ public class HospitalFabricServiceTest {
     @Autowired
     private SmartContractWapper smartContractWapper;
 
-    @Test
-    public void testInstall() throws Exception {
-        System.out.println("1111111111111111111111");
+    @Autowired
+    private ChannelWapper channel;
 
+    //@Test
+    public void testInstall() throws Exception {
+        System.out.println("***********************install smartcontract Start***********************");
+        smartContractWapper.installHospitalSC();
+        System.out.println("***********************install smartcontract End***********************");
+    }
+
+    public void testInstant() throws Exception {
+        System.out.println("***********************install smartcontract Start***********************");
+        smartContractWapper.installHospitalSC();
+        System.out.println("***********************install smartcontract End***********************");
     }
 }

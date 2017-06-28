@@ -96,7 +96,7 @@ public class ChannelWapper {
 		// SDKUtils.getProposalConsistencySets(responses);
 	}
 
-	public ChainCodeResultModel instantChaincode(ChaincodeID chaincodeID, String endorsementPolicyFile,
+	public ChainCodeResultModel instantChaincode(ChaincodeID chaincodeID, File endorsementPolicyFile,
 			Collection<Peer> peers, String invokeMethod, String[] invokeArgs)
 			throws InvalidArgumentException, ChaincodeEndorsementPolicyParseException, IOException, ProposalException {
 
@@ -117,7 +117,7 @@ public class ChannelWapper {
 		 * policies section for more details.
 		 */
 		ChaincodeEndorsementPolicy chaincodeEndorsementPolicy = new ChaincodeEndorsementPolicy();
-		chaincodeEndorsementPolicy.fromYamlFile(new File(endorsementPolicyFile));
+		chaincodeEndorsementPolicy.fromYamlFile(endorsementPolicyFile);
 		instantiateProposalRequest.setChaincodeEndorsementPolicy(chaincodeEndorsementPolicy);
 
 		Collection<ProposalResponse> responses = channel.sendInstantiationProposal(instantiateProposalRequest, peers);
@@ -133,7 +133,6 @@ public class ChannelWapper {
 		}
 
 		return new ChainCodeResultModel(successful, failed);
-
 	}
 
 	public ChainCodeResultModel transationProposal(ChaincodeID chaincodeID, Collection<Peer> peers, String invokeMethod,
