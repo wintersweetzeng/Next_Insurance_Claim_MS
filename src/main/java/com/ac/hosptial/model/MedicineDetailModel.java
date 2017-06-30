@@ -10,4 +10,6 @@ public class MedicineDetailModel {
     private String id;
     private String name;
     private int price;
+
+    private int number;
 }

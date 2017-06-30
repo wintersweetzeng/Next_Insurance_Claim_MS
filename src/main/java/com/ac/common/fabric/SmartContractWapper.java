@@ -10,6 +10,7 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,7 +26,7 @@ public class SmartContractWapper {
     private ResourceLoader loader = new DefaultResourceLoader();
 
 
-    public ChainCodeResultModel installHospitalSC() {
+    public ChainCodeResultModel installHospitalSC() throws Exception {
 
         try {
             //smartContract\hospital
@@ -36,10 +37,29 @@ public class SmartContractWapper {
             return channel.installChaincode(scFile, SmartContractConstant.Hospital.CHAINCODE_NAME, SmartContractConstant.Hospital.CHAINCODE_VERSION,
                     SmartContractConstant.Hospital.CHAINCODE_PATH, peers);
         } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+            //log
 
-        return null;
+            throw ex;
+        }
+    }
+
+    public ChainCodeResultModel instantHospitalSC() throws Exception {
+
+        try {
+            //smartContract\hospital
+            File scFile = loader.getResource("classpath:/endorsementPolicy/hospital/chaincodeendorsementpolicy.yaml").getFile();
+
+            List<Peer> peers = channel.getAllPeers().stream().filter(peer -> StringUtils.contains(peer.getName(), "org1.example.com")).collect(Collectors.toList());
+
+            //String chaincodeName, String chaincodeVersion, String path, File endorsementPolicyFile,
+            // Collection<Peer> peers, String invokeMethod, String[] invokeArgs
+            return channel.instantChaincode(SmartContractConstant.Hospital.CHAINCODE_NAME, SmartContractConstant.Hospital.CHAINCODE_VERSION,
+                    SmartContractConstant.Hospital.CHAINCODE_PATH, scFile, peers, "init", new String[]{ "test"});
+        } catch (Exception ex) {
+            //log
+
+            throw ex;
+        }
     }
 
     public ChainCodeResultModel installInsuranceSC() {

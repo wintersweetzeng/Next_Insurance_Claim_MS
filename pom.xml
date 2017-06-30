@@ -55,11 +55,13 @@
             <scope>test</scope>
         </dependency>
 
+
         <dependency>
             <groupId>org.hyperledger.fabric-sdk-java</groupId>
             <artifactId>fabric-sdk-java</artifactId>
             <version>1.0.0-alpha2</version>
         </dependency>
+
 
         <dependency>
             <groupId>io.grpc</groupId>

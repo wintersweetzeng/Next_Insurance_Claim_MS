@@ -8,7 +8,7 @@ import org.junit.Test;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class Teat {
+public class TestOne {
 
 	@Test
 	public void test() {

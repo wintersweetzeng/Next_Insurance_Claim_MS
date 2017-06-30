@@ -11,12 +11,14 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.hyperledger.fabric.sdk.BlockEvent;
 import org.hyperledger.fabric.sdk.ChaincodeID;
+import org.hyperledger.fabric.sdk.Peer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 /**
  * Created by zhenchao.bi on 6/26/2017.
@@ -49,13 +51,11 @@ public class HospitalFabricServiceImpl implements HospitalFabricService {
 
         String json = mapper.writeValueAsString(detail);
 
-        ChaincodeID chaincodeID = ChaincodeID.newBuilder().setName(SmartContractConstant.Hospital.CHAINCODE_NAME)
-                .setVersion(SmartContractConstant.Hospital.CHAINCODE_VERSION)
-                .setPath(SmartContractConstant.Hospital.CHAINCODE_PATH)
-                .build();
+        List<Peer> peers = channel.getAllPeers().stream().filter(peer -> StringUtils.contains(peer.getName(), "org1.example.com")).collect(Collectors.toList());
 
         //ChaincodeID chaincodeID, Collection<Peer> peers, String invokeMethod,String[] invokeArgs
-        ChainCodeResultModel result = channel.transationProposal(chaincodeID, channel.getAllPeers(), "invoke", new String[]{json});
+        ChainCodeResultModel result = channel.transationProposal(SmartContractConstant.Hospital.CHAINCODE_NAME, SmartContractConstant.Hospital.CHAINCODE_VERSION,
+                SmartContractConstant.Hospital.CHAINCODE_PATH, peers, "invoke", new String[]{"invoke", json});
 
         if (CollectionUtils.isEmpty(result.getFailed())) {
             CompletableFuture<BlockEvent.TransactionEvent> future = channel.transationSubmit(result.getSuccessful());
@@ -63,7 +63,6 @@ public class HospitalFabricServiceImpl implements HospitalFabricService {
                 if (exception != null) {
                     throw new IllegalArgumentException(exception.getMessage());
                 }
-
                 System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
             });
         } else {

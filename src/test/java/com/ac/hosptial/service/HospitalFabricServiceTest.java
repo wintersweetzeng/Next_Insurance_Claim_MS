@@ -1,12 +1,29 @@
 package com.ac.hosptial.service;
 
+import com.ac.common.constant.SmartContractConstant;
 import com.ac.common.fabric.ChannelWapper;
 import com.ac.common.fabric.SmartContractWapper;
+import com.ac.common.fabric.model.ChainCodeResultModel;
+import com.ac.expense.ExpenseDetail;
+import com.ac.expense.MedicineDetail;
+import com.ac.hosptial.model.MedicineDetailModel;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.hyperledger.fabric.sdk.ChaincodeID;
+import org.hyperledger.fabric.sdk.Peer;
+import org.hyperledger.fabric.sdk.exception.InvalidArgumentException;
+import org.hyperledger.fabric.sdk.exception.ProposalException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by zhenchao.bi on 6/27/2017.
@@ -24,16 +41,83 @@ public class HospitalFabricServiceTest {
     @Autowired
     private ChannelWapper channel;
 
-    //@Test
+    @Test
     public void testInstall() throws Exception {
         System.out.println("***********************install smartcontract Start***********************");
         smartContractWapper.installHospitalSC();
+        testInstant();
         System.out.println("***********************install smartcontract End***********************");
     }
 
+    @Test
     public void testInstant() throws Exception {
-        System.out.println("***********************install smartcontract Start***********************");
-        smartContractWapper.installHospitalSC();
-        System.out.println("***********************install smartcontract End***********************");
+        System.out.println("***********************instant smartcontract Start***********************");
+        ChainCodeResultModel result = smartContractWapper.instantHospitalSC();
+
+        testInvoke();
+
+
+        if (CollectionUtils.isEmpty(result.getFailed())) {
+            System.out.println("Success!!!!!!!!!!!!");
+        }
+
+        if (CollectionUtils.isEmpty(result.getSuccessful())) {
+            System.out.println("Fail!!!!!!!!!!!!");
+        }
+        System.out.println("***********************instant smartcontract End***********************");
+    }
+
+    //  @Test
+    public void testInvoke() {
+        System.out.println("***********************invoke smartcontract Start***********************");
+        ExpenseDetail expense = new ExpenseDetail();
+        expense.setClaimed(false);
+        expense.setExpenseTime("20001010010203");
+        expense.setUid("3702821982");
+
+        List<MedicineDetailModel> medicines = new ArrayList<>();
+
+        MedicineDetailModel detail1 = new MedicineDetailModel();
+        detail1.setId("1000");
+        detail1.setName("med1000");
+        detail1.setNumber(10);
+        detail1.setPrice(10);
+        MedicineDetailModel detail2 = new MedicineDetailModel();
+        detail2.setId("2000");
+        detail2.setName("med2000");
+        detail2.setNumber(10);
+        detail2.setPrice(20);
+        MedicineDetailModel detail3 = new MedicineDetailModel();
+        detail3.setId("3000");
+        detail3.setName("med3000");
+        detail3.setNumber(10);
+        detail3.setPrice(30);
+
+        medicines.add(detail1);
+        medicines.add(detail2);
+        medicines.add(detail3);
+
+
+        try {
+
+            service.save(medicines, "3702821982");
+
+//            List<Peer> peers = channel.getAllPeers().stream().filter(peer -> StringUtils.contains(peer.getName(), "org1.example.com")).collect(Collectors.toList());
+//            ChainCodeResultModel result = channel.query(SmartContractConstant.Hospital.CHAINCODE_NAME, SmartContractConstant.Hospital.CHAINCODE_VERSION,
+//                    SmartContractConstant.Hospital.CHAINCODE_PATH, peers, "invoke", new String[]{"query", "3702821982"});
+//
+//            if (CollectionUtils.isNotEmpty(result.getSuccessful())) {
+//                result.getSuccessful().forEach(proposalResponse -> {
+//                    String payload = proposalResponse.getProposalResponse().getResponse().getPayload()
+//                            .toStringUtf8();
+//                    System.out.println(payload);
+//                });
+//            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("***********************invoke smartcontract Start***********************");
+
     }
 }

@@ -1,5 +1,6 @@
 package com.ac.common.fabric;
 
+import com.ac.common.constant.SmartContractConstant;
 import com.ac.common.fabric.hfc.OrgInfo;
 import com.ac.common.fabric.model.ChainCodeResultModel;
 import com.google.common.collect.Lists;
@@ -31,286 +32,294 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 @Service
 public class ChannelWapper {
 
-	@Autowired
-	private OrgWapper orgWapper;
+    @Autowired
+    private OrgWapper orgWapper;
 
-	private HFClient client;
+    private HFClient client;
 
-	/**
-	 * For hospital and insurance
-	 */
-	private Channel channel;
+    /**
+     * For hospital and insurance
+     */
+    private Channel channel;
 
-	private ResourceLoader loader = new DefaultResourceLoader();
+    private ResourceLoader loader = new DefaultResourceLoader();
 
-	@PostConstruct
-	private void init() throws Exception {
-		client = HFClient.createNewInstance();
-		client.setCryptoSuite(CryptoSuite.Factory.getCryptoSuite());
+    ChaincodeID chaincodeID;
 
-		channel = this.constructChannel("foo");
-	}
+    @PostConstruct
+    private void init() throws Exception {
+        client = HFClient.createNewInstance();
+        client.setCryptoSuite(CryptoSuite.Factory.getCryptoSuite());
 
-	@PreDestroy
-	private void destory() {
-		if (channel != null) {
-			channel.shutdown(true);
-		}
-	}
+        channel = this.constructChannel("foo");
 
-	public Collection<Peer> getAllPeers() {
+        chaincodeID = ChaincodeID.newBuilder().setName(SmartContractConstant.Hospital.CHAINCODE_NAME).setVersion(SmartContractConstant.Hospital.CHAINCODE_VERSION)
+                .setPath(SmartContractConstant.Hospital.CHAINCODE_PATH).build();
+    }
+
+
+    @PreDestroy
+    private void destory() {
+        if (channel != null) {
+            channel.shutdown(true);
+        }
+    }
+
+    public Collection<Peer> getAllPeers() {
         return channel.getPeers();
     }
 
-	public ChainCodeResultModel installChaincode(File chaincodeSourceLocation, String chaincodeName,
-			String chaincodeVersion, String path, Collection<Peer> peers)
-			throws InvalidArgumentException, ProposalException {
+    public ChainCodeResultModel installChaincode(File chaincodeSourceLocation, String chaincodeName,
+                                                 String chaincodeVersion, String path, Collection<Peer> peers)
+            throws InvalidArgumentException, ProposalException {
 
-		client.setUserContext(orgWapper.getInsuranceOrgInfo().getPeerAdmin());
+        client.setUserContext(orgWapper.getInsuranceOrgInfo().getPeerAdmin());
 
-		InstallProposalRequest installProposalRequest = client.newInstallProposalRequest();
+        InstallProposalRequest installProposalRequest = client.newInstallProposalRequest();
 
-		ChaincodeID chaincodeID = ChaincodeID.newBuilder().setName(chaincodeName).setVersion(chaincodeVersion)
-				.setPath(path).build();
-		installProposalRequest.setChaincodeID(chaincodeID);
+        installProposalRequest.setChaincodeID(chaincodeID);
 
-		installProposalRequest.setChaincodeSourceLocation(chaincodeSourceLocation);
-		installProposalRequest.setChaincodeVersion(chaincodeVersion);
+        installProposalRequest.setChaincodeSourceLocation(chaincodeSourceLocation);
+        installProposalRequest.setChaincodeVersion(chaincodeVersion);
 
 
-		//int numInstallProposal = peers.size();
+        //int numInstallProposal = peers.size();
 
-		Collection<ProposalResponse> responses = client.sendInstallProposal(installProposalRequest, peers);
+        Collection<ProposalResponse> responses = client.sendInstallProposal(installProposalRequest, peers);
 
-		Collection<ProposalResponse> successful = Lists.newArrayList();
-		Collection<ProposalResponse> failed = Lists.newArrayList();
-		for (ProposalResponse response : responses) {
-			if (response.getStatus() == ProposalResponse.Status.SUCCESS) {
-				successful.add(response);
-			} else {
-				failed.add(response);
-			}
-		}
+        Collection<ProposalResponse> successful = Lists.newArrayList();
+        Collection<ProposalResponse> failed = Lists.newArrayList();
+        for (ProposalResponse response : responses) {
+            if (response.getStatus() == ProposalResponse.Status.SUCCESS) {
+                successful.add(response);
+            } else {
+                failed.add(response);
+            }
+        }
 
-		return new ChainCodeResultModel(successful, failed);
-		// SDKUtils.getProposalConsistencySets(responses);
-	}
+        return new ChainCodeResultModel(successful, failed);
+        // SDKUtils.getProposalConsistencySets(responses);
+    }
 
-	public ChainCodeResultModel instantChaincode(ChaincodeID chaincodeID, File endorsementPolicyFile,
-			Collection<Peer> peers, String invokeMethod, String[] invokeArgs)
-			throws InvalidArgumentException, ChaincodeEndorsementPolicyParseException, IOException, ProposalException {
+    public ChainCodeResultModel instantChaincode(String chaincodeName, String chaincodeVersion, String path, File endorsementPolicyFile,
+                                                 Collection<Peer> peers, String invokeMethod, String[] invokeArgs)
+            throws InvalidArgumentException, ChaincodeEndorsementPolicyParseException, IOException, ProposalException {
 
-		InstantiateProposalRequest instantiateProposalRequest = client.newInstantiationProposalRequest();
+        client.setUserContext(orgWapper.getInsuranceOrgInfo().getPeerAdmin());
 
-		instantiateProposalRequest.setProposalWaitTime(300000);
-		instantiateProposalRequest.setChaincodeID(chaincodeID);
-		instantiateProposalRequest.setFcn(invokeMethod);
-		instantiateProposalRequest.setArgs(invokeArgs);
-		Map<String, byte[]> tm = new HashMap<>();
-		tm.put("HyperLedgerFabric", "InstantiateProposalRequest:JavaSDK".getBytes(UTF_8));
-		tm.put("method", "InstantiateProposalRequest".getBytes(UTF_8));
-		instantiateProposalRequest.setTransientMap(tm);
+        InstantiateProposalRequest instantiateProposalRequest = client.newInstantiationProposalRequest();
+        instantiateProposalRequest.setProposalWaitTime(100000);
+        instantiateProposalRequest.setChaincodeID(chaincodeID);
+        instantiateProposalRequest.setFcn(invokeMethod);
+        instantiateProposalRequest.setArgs(invokeArgs);
+        Map<String, byte[]> tm = new HashMap<>();
+        tm.put("HyperLedgerFabric", "InstantiateProposalRequest:JavaSDK".getBytes(UTF_8));
+        tm.put("method", "InstantiateProposalRequest".getBytes(UTF_8));
+        instantiateProposalRequest.setTransientMap(tm);
 
 		/*
-		 * policy OR(Org1MSP.member, Org2MSP.member) meaning 1 signature from
+         * policy OR(Org1MSP.member, Org2MSP.member) meaning 1 signature from
 		 * someone in either Org1 or Org2 See README.md Chaincode endorsement
 		 * policies section for more details.
 		 */
-		ChaincodeEndorsementPolicy chaincodeEndorsementPolicy = new ChaincodeEndorsementPolicy();
-		chaincodeEndorsementPolicy.fromYamlFile(endorsementPolicyFile);
-		instantiateProposalRequest.setChaincodeEndorsementPolicy(chaincodeEndorsementPolicy);
+        ChaincodeEndorsementPolicy chaincodeEndorsementPolicy = new ChaincodeEndorsementPolicy();
+        chaincodeEndorsementPolicy.fromYamlFile(endorsementPolicyFile);
+        instantiateProposalRequest.setChaincodeEndorsementPolicy(chaincodeEndorsementPolicy);
 
-		Collection<ProposalResponse> responses = channel.sendInstantiationProposal(instantiateProposalRequest, peers);
+        Collection<ProposalResponse> responses = channel.sendInstantiationProposal(instantiateProposalRequest, peers);
 
-		Collection<ProposalResponse> successful = Lists.newArrayList();
-		Collection<ProposalResponse> failed = Lists.newArrayList();
-		for (ProposalResponse response : responses) {
-			if (response.isVerified() && response.getStatus() == ProposalResponse.Status.SUCCESS) {
-				successful.add(response);
-			} else {
-				failed.add(response);
-			}
-		}
+        Collection<ProposalResponse> successful = Lists.newArrayList();
+        Collection<ProposalResponse> failed = Lists.newArrayList();
+        for (ProposalResponse response : responses) {
+            if (response.isVerified() && response.getStatus() == ProposalResponse.Status.SUCCESS) {
+                successful.add(response);
+            } else {
+                failed.add(response);
+            }
+        }
 
-		return new ChainCodeResultModel(successful, failed);
-	}
+        return new ChainCodeResultModel(successful, failed);
+    }
 
-	public ChainCodeResultModel transationProposal(ChaincodeID chaincodeID, Collection<Peer> peers, String invokeMethod,
-			String[] invokeArgs) throws InvalidArgumentException, ProposalException {
+    public ChainCodeResultModel transationProposal(String chaincodeName, String chaincodeVersion, String path, Collection<Peer> peers, String invokeMethod,
+                                                   String[] invokeArgs) throws InvalidArgumentException, ProposalException {
 
-		client.setUserContext(orgWapper.getInsuranceOrgInfo().getPeerAdmin());
+        client.setUserContext(orgWapper.getInsuranceOrgInfo().getPeerAdmin());
 
-		TransactionProposalRequest transactionProposalRequest = client.newTransactionProposalRequest();
-		transactionProposalRequest.setChaincodeID(chaincodeID);
-		transactionProposalRequest.setFcn(invokeMethod);
-		transactionProposalRequest.setArgs(invokeArgs);
-		transactionProposalRequest.setProposalWaitTime(300000);
+        TransactionProposalRequest transactionProposalRequest = client.newTransactionProposalRequest();
+        transactionProposalRequest.setChaincodeID(chaincodeID);
+        transactionProposalRequest.setFcn(invokeMethod);
+        transactionProposalRequest.setArgs(invokeArgs);
+        transactionProposalRequest.setProposalWaitTime(300000);
 
-		Map<String, byte[]> tm2 = new HashMap<>();
-		tm2.put("HyperLedgerFabric", "TransactionProposalRequest:JavaSDK".getBytes(UTF_8));
-		tm2.put("method", "TransactionProposalRequest".getBytes(UTF_8));
-		tm2.put("result", ":)".getBytes(UTF_8));
-		transactionProposalRequest.setTransientMap(tm2);
+        Map<String, byte[]> tm2 = new HashMap<>();
+        tm2.put("HyperLedgerFabric", "TransactionProposalRequest:JavaSDK".getBytes(UTF_8));
+        tm2.put("method", "TransactionProposalRequest".getBytes(UTF_8));
+        tm2.put("result", ":)".getBytes(UTF_8));
+        transactionProposalRequest.setTransientMap(tm2);
 
-		Collection<ProposalResponse> transactionPropResp = channel.sendTransactionProposal(transactionProposalRequest,
-				peers);
+        Collection<ProposalResponse> transactionPropResp = channel.sendTransactionProposal(transactionProposalRequest,
+                peers);
 
-		Collection<ProposalResponse> successful = Lists.newArrayList();
-		Collection<ProposalResponse> failed = Lists.newArrayList();
-		for (ProposalResponse response : transactionPropResp) {
-			if (response.getStatus() == ProposalResponse.Status.SUCCESS) {
-				successful.add(response);
-			} else {
-				failed.add(response);
-			}
-		}
+        Collection<ProposalResponse> successful = Lists.newArrayList();
+        Collection<ProposalResponse> failed = Lists.newArrayList();
+        for (ProposalResponse response : transactionPropResp) {
+            if (response.getStatus() == ProposalResponse.Status.SUCCESS) {
+                successful.add(response);
+            } else {
+                failed.add(response);
+            }
+        }
 
-		return new ChainCodeResultModel(successful, failed);
-	}
+        return new ChainCodeResultModel(successful, failed);
+    }
 
-	public CompletableFuture<TransactionEvent> transationSubmit(Collection<ProposalResponse> successful) {
-		return channel.sendTransaction(successful);
-	}
+    public CompletableFuture<TransactionEvent> transationSubmit(Collection<ProposalResponse> successful) {
+        return channel.sendTransaction(successful);
+    }
 
-	public ChainCodeResultModel query(ChaincodeID chaincodeID, Collection<Peer> peers, String invokeMethod,
-			String[] invokeArgs) throws InvalidArgumentException, ProposalException {
+    public ChainCodeResultModel query(String chaincodeName, String chaincodeVersion, String path, Collection<Peer> peers, String invokeMethod,
+                                      String[] invokeArgs) throws InvalidArgumentException, ProposalException {
 
-		QueryByChaincodeRequest queryByChaincodeRequest = client.newQueryProposalRequest();
-		queryByChaincodeRequest.setArgs(invokeArgs);
-		queryByChaincodeRequest.setFcn(invokeMethod);
-		queryByChaincodeRequest.setChaincodeID(chaincodeID);
+        ChaincodeID chaincodeID = ChaincodeID.newBuilder().setName(chaincodeName).setVersion(chaincodeVersion)
+                .setPath(path).build();
 
-		Map<String, byte[]> tm = new HashMap<>();
-		tm.put("HyperLedgerFabric", "QueryByChaincodeRequest:JavaSDK".getBytes(UTF_8));
-		tm.put("method", "QueryByChaincodeRequest".getBytes(UTF_8));
-		queryByChaincodeRequest.setTransientMap(tm);
+        QueryByChaincodeRequest queryByChaincodeRequest = client.newQueryProposalRequest();
+        queryByChaincodeRequest.setArgs(invokeArgs);
+        queryByChaincodeRequest.setFcn(invokeMethod);
+        queryByChaincodeRequest.setChaincodeID(chaincodeID);
 
-		Collection<ProposalResponse> queryProposals = channel.queryByChaincode(queryByChaincodeRequest, peers);
+        Map<String, byte[]> tm = new HashMap<>();
+        tm.put("HyperLedgerFabric", "QueryByChaincodeRequest:JavaSDK".getBytes(UTF_8));
+        tm.put("method", "QueryByChaincodeRequest".getBytes(UTF_8));
+        queryByChaincodeRequest.setTransientMap(tm);
 
-		Collection<ProposalResponse> successful = Lists.newArrayList();
-		Collection<ProposalResponse> failed = Lists.newArrayList();
-		for (ProposalResponse proposalResponse : queryProposals) {
-			if (!proposalResponse.isVerified() || proposalResponse.getStatus() != ProposalResponse.Status.SUCCESS) {
-				successful.add(proposalResponse);
-			} else {
-				failed.add(proposalResponse);
-			}
-		}
+        Collection<ProposalResponse> queryProposals = channel.queryByChaincode(queryByChaincodeRequest, peers);
 
-		return new ChainCodeResultModel(successful, failed);
+        Collection<ProposalResponse> successful = Lists.newArrayList();
+        Collection<ProposalResponse> failed = Lists.newArrayList();
+        for (ProposalResponse proposalResponse : queryProposals) {
+            if (!proposalResponse.isVerified() || proposalResponse.getStatus() != ProposalResponse.Status.SUCCESS) {
+                successful.add(proposalResponse);
+            } else {
+                failed.add(proposalResponse);
+            }
+        }
 
-	}
+        return new ChainCodeResultModel(successful, failed);
 
-	private Channel constructChannel(String channelName)
-			throws InvalidArgumentException, IOException, TransactionException {
+    }
 
-		OrgInfo insuranceOrg = orgWapper.getInsuranceOrgInfo();
+    private Channel constructChannel(String channelName)
+            throws InvalidArgumentException, IOException, TransactionException {
 
-		Collection<Orderer> orderers = Lists.newArrayList();
-		for (String orderName : insuranceOrg.getOrdererNames()) {
-			Properties ordererProperties = this.getOrdererProperties(orderName);
-			ordererProperties.put("grpc.NettyChannelBuilderOption.enableKeepAlive",
-					new Object[] { true, 1L, TimeUnit.SECONDS, 1L, TimeUnit.SECONDS });
-			orderers.add(client.newOrderer(orderName, insuranceOrg.getOrdererLocation(orderName), ordererProperties));
-		}
+        OrgInfo insuranceOrg = orgWapper.getInsuranceOrgInfo();
 
-		// Just pick the first orderer in the list to create the channel.
-		Orderer anOrderer = orderers.iterator().next();
-		//orderers.remove(anOrderer);
+        Collection<Orderer> orderers = Lists.newArrayList();
+        for (String orderName : insuranceOrg.getOrdererNames()) {
+            Properties ordererProperties = this.getOrdererProperties(orderName);
+            ordererProperties.put("grpc.NettyChannelBuilderOption.enableKeepAlive",
+                    new Object[]{true, 1L, TimeUnit.SECONDS, 1L, TimeUnit.SECONDS});
+            orderers.add(client.newOrderer(orderName, insuranceOrg.getOrdererLocation(orderName), ordererProperties));
+        }
 
-		ChannelConfiguration channelConfiguration = new ChannelConfiguration(
-				loader.getResource("classpath:/keyStore/insurance/channel/foo.tx").getFile());
+        // Just pick the first orderer in the list to create the channel.
+        Orderer anOrderer = orderers.iterator().next();
+        //orderers.remove(anOrderer);
 
-		// Only peer Admin org
-		client.setUserContext(insuranceOrg.getPeerAdmin());
+        ChannelConfiguration channelConfiguration = new ChannelConfiguration(
+                loader.getResource("classpath:/keyStore/insurance/channel/foo.tx").getFile());
 
-		// client.getChannel(name)
-		Channel newChannel = null;
-		try {
-			newChannel = client.newChannel(channelName, anOrderer, channelConfiguration,
-					client.getChannelConfigurationSignature(channelConfiguration, insuranceOrg.getPeerAdmin()));
-		} catch (Exception ex) {
-			//ex.printStackTrace();
-			newChannel = client.newChannel(channelName);
-			newChannel.addOrderer(anOrderer);
-		}
+        // Only peer Admin org
+        client.setUserContext(insuranceOrg.getPeerAdmin());
 
-		// join insureance peer to channel
-		this.joinPeerToChannel(insuranceOrg, newChannel);
+        // client.getChannel(name)
+        Channel newChannel = null;
+        try {
+            newChannel = client.newChannel(channelName, anOrderer, channelConfiguration,
+                    client.getChannelConfigurationSignature(channelConfiguration, insuranceOrg.getPeerAdmin()));
+        } catch (Exception ex) {
+            //ex.printStackTrace();
+            newChannel = client.newChannel(channelName);
+            newChannel.addOrderer(anOrderer);
+        }
 
-		// join hospital peer to channel
-		this.joinPeerToChannel(orgWapper.getHospitalOrgInfo(), newChannel);
+        // join insureance peer to channel
+        this.joinPeerToChannel(insuranceOrg, newChannel);
 
-		for (String eventHubName : insuranceOrg.getEventHubNames()) {
-			EventHub eventHub = client.newEventHub(eventHubName, insuranceOrg.getEventHubLocation(eventHubName),
-					this.getPeerProperties(insuranceOrg.getId(), eventHubName));
-			newChannel.addEventHub(eventHub);
-		}
+        // join hospital peer to channel
+       // this.joinPeerToChannel(orgWapper.getHospitalOrgInfo(), newChannel);
 
-		if (!newChannel.isInitialized()) {
-			newChannel.initialize();
-		}
+        for (String eventHubName : insuranceOrg.getEventHubNames()) {
+            EventHub eventHub = client.newEventHub(eventHubName, insuranceOrg.getEventHubLocation(eventHubName),
+                    this.getPeerProperties(insuranceOrg.getId(), eventHubName));
+            newChannel.addEventHub(eventHub);
+        }
 
-		return newChannel;
-	}
+        if (!newChannel.isInitialized()) {
+            newChannel.initialize();
+        }
 
-	private void joinPeerToChannel(OrgInfo insuranceOrg, Channel newChannel)
-			throws IOException, InvalidArgumentException {
+        return newChannel;
+    }
 
-		for (String peerName : insuranceOrg.getPeerNames()) {
+    private void joinPeerToChannel(OrgInfo insuranceOrg, Channel newChannel)
+            throws IOException, InvalidArgumentException {
 
-			String peerLocation = insuranceOrg.getPeerLocation(peerName);
-			Properties peerProperties = this.getPeerProperties(insuranceOrg.getId(), peerName);
+        for (String peerName : insuranceOrg.getPeerNames()) {
 
-			// Example of setting specific options on grpc's NettyChannelBuilder
-			peerProperties.put("grpc.NettyChannelBuilderOption.maxInboundMessageSize", 9000000);
+            String peerLocation = insuranceOrg.getPeerLocation(peerName);
+            Properties peerProperties = this.getPeerProperties(insuranceOrg.getId(), peerName);
 
-			Peer peer = client.newPeer(peerName, peerLocation, peerProperties);
-			insuranceOrg.addPeer(peer);
+            // Example of setting specific options on grpc's NettyChannelBuilder
+            peerProperties.put("grpc.NettyChannelBuilderOption.maxInboundMessageSize", 9000000);
 
-			try {
-				newChannel.joinPeer(peer);
-			} catch (Exception ex) {
-				//ex.printStackTrace();
-				newChannel.addPeer(peer);
-			}
+            Peer peer = client.newPeer(peerName, peerLocation, peerProperties);
+            insuranceOrg.addPeer(peer);
 
-		}
+            try {
+                newChannel.joinPeer(peer);
+            } catch (Exception ex) {
+                //ex.printStackTrace();
+                newChannel.addPeer(peer);
+            }
 
-	}
+        }
 
-	private Properties getPeerProperties(String orgName, String peerName) throws IOException {
+    }
 
-		File cert = loader.getResource(String.format("classpath:/tls/peer/%s/%s/server.crt", orgName, peerName)).getFile();
-		if (!cert.exists()) {
-			throw new RuntimeException(String.format("Missing cert file for: %s. Could not find at location: %s",
-					peerName, cert.getAbsolutePath()));
-		}
+    private Properties getPeerProperties(String orgName, String peerName) throws IOException {
 
-		Properties ret = new Properties();
-		ret.setProperty("pemFile", cert.getAbsolutePath());
-		ret.setProperty("hostnameOverride", peerName);
-		ret.setProperty("sslProvider", "openSSL");
-		ret.setProperty("negotiationType", "TLS");
+        File cert = loader.getResource(String.format("classpath:/tls/peer/%s/%s/server.crt", orgName, peerName)).getFile();
+        if (!cert.exists()) {
+            throw new RuntimeException(String.format("Missing cert file for: %s. Could not find at location: %s",
+                    peerName, cert.getAbsolutePath()));
+        }
 
-		return ret;
-	}
+        Properties ret = new Properties();
+        ret.setProperty("pemFile", cert.getAbsolutePath());
+        ret.setProperty("hostnameOverride", peerName);
+        ret.setProperty("sslProvider", "openSSL");
+        ret.setProperty("negotiationType", "TLS");
 
-	private Properties getOrdererProperties(String name) throws IOException {
+        return ret;
+    }
 
-		File cert = loader.getResource("classpath:/tls/orderer/server.crt").getFile();
-		if (!cert.exists()) {
-			throw new RuntimeException(String.format("Missing cert file for: %s. Could not find at location: %s", name,
-					cert.getAbsolutePath()));
-		}
+    private Properties getOrdererProperties(String name) throws IOException {
 
-		Properties ret = new Properties();
-		ret.setProperty("pemFile", cert.getAbsolutePath());
-		ret.setProperty("hostnameOverride", name);
-		ret.setProperty("sslProvider", "openSSL");
-		ret.setProperty("negotiationType", "TLS");
+        File cert = loader.getResource("classpath:/tls/orderer/server.crt").getFile();
+        if (!cert.exists()) {
+            throw new RuntimeException(String.format("Missing cert file for: %s. Could not find at location: %s", name,
+                    cert.getAbsolutePath()));
+        }
 
-		return ret;
-	}
+        Properties ret = new Properties();
+        ret.setProperty("pemFile", cert.getAbsolutePath());
+        ret.setProperty("hostnameOverride", name);
+        ret.setProperty("sslProvider", "openSSL");
+        ret.setProperty("negotiationType", "TLS");
+
+        return ret;
+    }
 
 }

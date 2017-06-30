@@ -1,14 +1,10 @@
 package main
 
 import (
-"fmt"
-_ "strconv"
-_ "encoding/json"
-"github.com/hyperledger/fabric/core/chaincode/shim"
-pb "github.com/hyperledger/fabric/protos/peer"
+	"fmt"
+	"github.com/hyperledger/fabric/core/chaincode/shim"
+	pb "github.com/hyperledger/fabric/protos/peer"
 	"encoding/json"
-	_"encoding/binary"
-	_"bytes"
 )
 
 type MedicineDetail struct {
@@ -31,7 +27,8 @@ type HospitalChainCode struct {
 }
 
 func (t *HospitalChainCode) Init(stub shim.ChaincodeStubInterface) pb.Response {
-	return shim.Success(nil)
+	fmt.Printf("init method is incoked.")
+	return shim.Success([]byte("success"))
 }
 
 // {"uid":"3702821982","expenseTime":"20001010010203","claimed":false,"medicines":[{"id":"1000","name":"med1000","price":10,
@@ -46,6 +43,10 @@ func (t *HospitalChainCode) Invoke(stub shim.ChaincodeStubInterface) pb.Response
 	return shim.Error(`invalid invoke function name: "invoke" "query"`)
 }
 
+func (t *HospitalChainCode) Query(stub shim.ChaincodeStubInterface) pb.Response {
+	return shim.Error("Unknown supported call")
+}
+
 func (t *HospitalChainCode) invoke(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 	if len(args) != 1 {
 		return shim.Error("Incorrect number of arguments. Expecting 1")
@@ -58,17 +59,17 @@ func (t *HospitalChainCode) invoke(stub shim.ChaincodeStubInterface, args []stri
 		return shim.Error("Fail to unmarshal json data!")
 	}
 
-	 usrMapdata := map[string]ExpenseDetail{}
+	usrMapdata := map[string]ExpenseDetail{}
 
 	// usrMapdataBytes is []byte
 	usrMapdataBytes, err := stub.GetState(jsonObj.Uid)
 	// map is not found
-	if err == nil {
+	if len(usrMapdataBytes) != 0 {
 		jsonErr := json.Unmarshal(usrMapdataBytes, usrMapdata)
 		if jsonErr != nil {
 			return shim.Error("Failed to Unmarshal!")
 		}
-}
+	}
 	usrMapdata[jsonObj.ExpenseTime] = jsonObj
 
 	userMapJson, err := json.Marshal(usrMapdata)
@@ -92,17 +93,15 @@ func (t *HospitalChainCode) query(stub shim.ChaincodeStubInterface, args []strin
 
 	uid := args[0]
 	usrMapdataBytes, err := stub.GetState(uid)
+	if len(usrMapdataBytes) == 0 {
+		fmt.Printf("size is empty.")
+	}
+
 	if err != nil {
 		return shim.Success([]byte("Data is null!"))
 	}
 
-	usrMapdata := map[string]ExpenseDetail{}
-	jsonData,err := json.Marshal(usrMapdata)
-	if err != nil {
-		return shim.Error("Fail to Marshal!")
-	}
-
-	return shim.Success(jsonData)
+	return shim.Success(usrMapdataBytes)
 }
 
 func main() {
