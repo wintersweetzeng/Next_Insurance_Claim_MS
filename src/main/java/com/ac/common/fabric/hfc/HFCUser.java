@@ -29,7 +29,7 @@ public class HFCUser implements User, Serializable {
 	private String organization;
 
 	private Enrollment enrollment = null;
-	private String mSPID;
+	private String mspId;
 
 	private transient HFCKeyStore keyValStore;
 	private String keyValStoreName;
@@ -125,7 +125,7 @@ public class HFCUser implements User, Serializable {
 					this.organization = state.organization;
 					this.enrollmentSecret = state.enrollmentSecret;
 					this.enrollment = state.enrollment;
-					this.mSPID = state.mSPID;
+					this.mspId = state.mspId;
 					return this;
 				}
 			} catch (Exception e) {
@@ -146,8 +146,14 @@ public class HFCUser implements User, Serializable {
 	}
 
 	public void setMPSID(String mspID) {
-		this.mSPID = mspID;
+		this.mspId = mspID;
 		saveState();
+	}
+
+	@Override
+	public String getMspId() {
+		// TODO Auto-generated method stub
+		return this.mspId;
 	}
 
 }
