@@ -43,9 +43,7 @@ public class HospitalFabricServiceTest {
 	// @Test
 	public void testInstant() throws Exception {
 		System.out.println("***********************instant smartcontract Start***********************");
-
 		smartContractWapper.instantHospitalSC();
-
 		System.out.println("***********************instant smartcontract End***********************");
 	}
 
@@ -54,7 +52,6 @@ public class HospitalFabricServiceTest {
 		System.out.println("***********************invoke smartcontract Start***********************");
 
 		List<MedicineDetailModel> medicines = new ArrayList<>();
-
 		MedicineDetailModel detail1 = new MedicineDetailModel();
 		detail1.setId("1000");
 		detail1.setName("med1000");
@@ -76,14 +73,12 @@ public class HospitalFabricServiceTest {
 		medicines.add(detail3);
 
 		try {
-
 			service.save(medicines, "3702821982");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		System.out.println("***********************invoke smartcontract end***********************");
-
 	}
 
 	// @Test
@@ -99,7 +94,6 @@ public class HospitalFabricServiceTest {
 					String body = responseBody.getProposalResponse().getResponse().getPayload().toStringUtf8();
 					System.out.println(body);
 				});
-
 			}
 		} catch (InvalidArgumentException | ProposalException e) {
 			// TODO Auto-generated catch block

@@ -19,9 +19,8 @@ type ExpenseDetail struct {
 	//yyyyMMddHHmmss
 	ExpenseTime string
 	Claimed bool
-	Medicines []MedicineDetail
+	Medicines []*MedicineDetail
 }
-
 
 type HospitalChainCode struct {
 }
@@ -53,24 +52,27 @@ func (t *HospitalChainCode) invoke(stub shim.ChaincodeStubInterface, args []stri
 	}
 
 	jsonVal := args[0]
-	var jsonObj ExpenseDetail
+	jsonObj := ExpenseDetail{}
 	err := json.Unmarshal([]byte(jsonVal), &jsonObj)
 	if err != nil {
 		return shim.Error("Fail to unmarshal json data!")
 	}
 
-	usrMapdata := map[string]ExpenseDetail{}
+	usrMapdata := []ExpenseDetail{}
 
 	// usrMapdataBytes is []byte
 	usrMapdataBytes, err := stub.GetState(jsonObj.Uid)
+
 	// map is not found
 	if len(usrMapdataBytes) != 0 {
-		jsonErr := json.Unmarshal(usrMapdataBytes, usrMapdata)
+		jsonErr := json.Unmarshal(usrMapdataBytes, &usrMapdata)
 		if jsonErr != nil {
+			fmt.Print(jsonErr)
 			return shim.Error("Failed to Unmarshal!")
 		}
 	}
-	usrMapdata[jsonObj.ExpenseTime] = jsonObj
+
+	usrMapdata = append(usrMapdata, jsonObj)
 
 	userMapJson, err := json.Marshal(usrMapdata)
 	if  err != nil {
@@ -79,7 +81,6 @@ func (t *HospitalChainCode) invoke(stub shim.ChaincodeStubInterface, args []stri
 
 	//buf := new(bytes.Buffer)
 	//binary.Write(buf, binary.BigEndian, usrMapdata)
-
 	stub.PutState(jsonObj.Uid, userMapJson)
 
 	return shim.Success([]byte("success!"))
