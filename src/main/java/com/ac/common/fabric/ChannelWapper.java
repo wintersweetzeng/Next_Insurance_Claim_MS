@@ -57,7 +57,7 @@ public class ChannelWapper {
 	private Channel channel;
 
 	private ResourceLoader loader = new DefaultResourceLoader();
-	
+
 	@PostConstruct
 	private void init() throws Exception {
 		client = HFClient.createNewInstance();
@@ -239,14 +239,8 @@ public class ChannelWapper {
 		// client.getChannel(name)
 		Channel newChannel = null;
 		try {
-
-			newChannel = client.newChannel(channelName);
-			newChannel.addOrderer(anOrderer);
-
-			// newChannel = client.newChannel(channelName, anOrderer,
-			// channelConfiguration,
-			// client.getChannelConfigurationSignature(channelConfiguration,
-			// insuranceOrg.getPeerAdmin()));
+			newChannel = client.newChannel(channelName, anOrderer, channelConfiguration,
+					client.getChannelConfigurationSignature(channelConfiguration, insuranceOrg.getPeerAdmin()));
 		} catch (Exception ex) {
 			// ex.printStackTrace();
 			newChannel = client.newChannel(channelName);
