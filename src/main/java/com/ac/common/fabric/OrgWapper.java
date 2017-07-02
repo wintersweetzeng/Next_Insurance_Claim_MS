@@ -1,15 +1,11 @@
 package com.ac.common.fabric;
 
-import com.ac.common.fabric.config.HospitalInfoConfig;
-import com.ac.common.fabric.config.InsuranceInfoConfig;
-import com.ac.common.fabric.config.OrgCommonConfig;
-import com.ac.common.fabric.hfc.HFCKeyStore;
-import com.ac.common.fabric.hfc.HFCUser;
-import com.ac.common.fabric.hfc.OrgInfo;
-import com.google.common.base.Strings;
-import com.google.common.collect.Lists;
-import io.netty.util.internal.StringUtil;
-import lombok.Getter;
+import java.io.File;
+import java.util.List;
+import java.util.Properties;
+
+import javax.annotation.PostConstruct;
+
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.hyperledger.fabric.sdk.security.CryptoSuite;
@@ -19,10 +15,15 @@ import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
-import java.io.File;
-import java.util.List;
-import java.util.Properties;
+import com.ac.common.fabric.config.HospitalInfoConfig;
+import com.ac.common.fabric.config.InsuranceInfoConfig;
+import com.ac.common.fabric.config.OrgCommonConfig;
+import com.ac.common.fabric.hfc.HFCKeyStore;
+import com.ac.common.fabric.hfc.HFCUser;
+import com.ac.common.fabric.hfc.OrgInfo;
+import com.google.common.collect.Lists;
+
+import lombok.Getter;
 
 @Service
 public class OrgWapper {
