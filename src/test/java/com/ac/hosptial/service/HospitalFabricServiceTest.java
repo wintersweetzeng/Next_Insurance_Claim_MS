@@ -2,11 +2,8 @@ package com.ac.hosptial.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.hyperledger.fabric.sdk.Peer;
 import org.hyperledger.fabric.sdk.exception.InvalidArgumentException;
 import org.hyperledger.fabric.sdk.exception.ProposalException;
 import org.junit.Test;
@@ -15,11 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.ac.common.constant.SmartContractConstant;
 import com.ac.common.fabric.ChannelWapper;
 import com.ac.common.fabric.SmartContractWapper;
 import com.ac.common.fabric.model.ChainCodeResultModel;
-import com.ac.expense.ExpenseDetail;
 import com.ac.hosptial.model.MedicineDetailModel;
 
 /**
@@ -49,10 +44,7 @@ public class HospitalFabricServiceTest {
 	public void testInstant() throws Exception {
 		System.out.println("***********************instant smartcontract Start***********************");
 
-		smartContractWapper.instantHospitalSC().thenApply(transactionEvent -> {
-			System.out.println("+++++++++++++++++++++++++++++++++++++++");
-			return null;
-		});
+		smartContractWapper.instantHospitalSC();
 
 		System.out.println("***********************instant smartcontract End***********************");
 	}
@@ -98,14 +90,9 @@ public class HospitalFabricServiceTest {
 	public void testQuery() {
 		System.out.println("***********************query smartcontract Start***********************");
 
-		List<Peer> peers = channel.getAllPeers().stream()
-				.filter(peer -> StringUtils.contains(peer.getName(), "org1.example.com")
-						&& StringUtils.contains(peer.getName(), "peer0"))
-				.collect(Collectors.toList());
-
 		try {
-			ChainCodeResultModel result = channel.query(SmartContractWapper.HOSPITAL_CHAINCODE_ID, peers, "query",
-					new String[] { "3702821982" });
+			ChainCodeResultModel result = channel.query(SmartContractWapper.HOSPITAL_CHAINCODE_ID,
+					SmartContractWapper.peers, "query", new String[] { "3702821982" });
 
 			if (CollectionUtils.isNotEmpty(result.getSuccessful())) {
 				result.getSuccessful().forEach(responseBody -> {
