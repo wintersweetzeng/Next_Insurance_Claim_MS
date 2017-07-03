@@ -1,0 +1,47 @@
+<html>
+<head>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script type="text/javascript">  
+$(function(){
+	$("#cancel2").click(function(){
+		window.location.href="main.html";
+	});
+ 	$("#submit2").click(function(){
+		var totalRow = 0 ;
+		$('#mytable tbody tr').each(function() { 
+		$(this).find('td:eq(2)').each(function(){ 
+			if($(this).text()&&!isNaN($(this).text()))
+			totalRow += parseFloat($(this).text()); 
+		});  
+	});
+		 alert(totalRow);
+	}); 
+});
+</script>
+<link rel="stylesheet" type="text/css" href="/main.css"/>
+</head>
+<body>
+<div class="p1">
+</div>
+<div>
+<h1 align="center"><label class="label-control">Detail Information</label></h1>
+	<table id="mytable" align="center" cellspacing="20px" border="1">
+		<thead>
+		<tr>
+			<td><label class="label-control font" id="id">id</label></td>
+			<td><label class="label-control font" id="name">name</label></td>
+			<td><label class="label-control font" id="price">price(RMB)</label></td>
+		</tr>
+		</thead>
+		<tbody id="tbody-result">
+		</tbody>
+		<tr>
+			<td align="left"><input class="button green" type="button" id="submit2" value="submit" style="width: 100px" /></td>
+			<td></td>
+			<td></td>
+			<td align="right"><input class="button green" type="button" id="cancel1" value="cancel" style="width: 100px" /></td>
+		</tr>
+	</table>
+</div>
+</body>
+</html>

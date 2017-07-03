@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/hospital")
 public class HospitalViewController {
 
-    @RequestMapping("/init")
+    @RequestMapping(value = {"/init",""})
     private String login() {
         return "hospital/login";
     }

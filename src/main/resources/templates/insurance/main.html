@@ -1,0 +1,79 @@
+<html>
+<head>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script type="text/javascript">
+$(function(){
+	$("#detail").click(function(){
+		confirm( '是否要报销');
+		    	var id=$("#id").val();
+				var name=$("#name").val();
+				var price=$("#price").val();
+				var medicine={"id":id,"name":name,"price":price}
+				var tbody=window.document.getElementById("tbody-result");
+				$.ajax({
+					type:"GET",
+					url:"/insurance/view",
+					data:JSON.stringify(medicine),
+					contentType:"application/json",
+					dataType:"json",
+					success:function(data){
+						if(data!= null){
+							var str="";
+							var table_data=table_data.data;
+							for(var i in table_data){
+								str+="<tr>"+
+								"<td>"+table_data[i].id+"</td>"+
+								"<td>"+table_data[i].name+"</td>"+
+								"<td>"+table_data[i].price+"</td>"+
+								"</tr>";
+							}
+							tbody.innerHTML=str;
+						}
+					},
+					error:function(e){
+						alert("出错:"+e);
+					}
+				});
+	});
+});
+</script>
+<link rel="stylesheet" type="text/css" href="/main_ext.css"/>
+</head>
+<body>
+<div class="p1">
+</div>
+<div>
+<h1 align="center"><label class="label-control">Settlement of claims</label></h1>
+	<table align="center" id="table">
+		<thead>
+		<tr>
+			<td><label class="label-control font">time</label></td>
+			<td><label class="label-control font">fee(RMB)</label></td>
+			<td><label class="label-control font">status</label></td>
+			<td><label class="label-control font">operation</label></td>
+		</tr>
+		</thead>
+		<tbody>
+		<tr>
+			<td><label class="label-control font">2015/2/28</label></td>
+			<td><label class="label-control font">35800</label></td>
+			<td><label class="label-control font">completed</label></td>
+			<td><input class="button green" type="button" value="detail"/></td>
+		</tr>
+		<tr>
+			<td><label class="label-control font">2016/4/10</label></td>
+			<td><label class="label-control font">25000</label></td>
+			<td><label class="label-control font">completed</label></td>
+			<td><input class="button green" type="button" value="detail"/></td>
+		</tr>
+		<tr>
+			<td><label class="label-control font">2017/6/22</label></td>
+			<td><label class="label-control font">4600</label></td>
+			<td><label class="label-control font">uncompleted</label></td>
+			<td><input class="button green" type="button" id="detail" value="detail" width="50px" /></td>
+		</tr>
+		</tbody>
+	</table>
+</div>
+</body>
+</html>

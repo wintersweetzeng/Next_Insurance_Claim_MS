@@ -1,22 +1,48 @@
 <html>
 <head>
-<script src="/static/index.js"></script>
+<link rel="stylesheet" type="text/css" href="/sample.css"/>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script type="text/javascript">  
+$(function(){
+	$("#login").click(function(){
+		var username=$("#username").val();
+		var password=$("#password").val();
+		alert("---" + username  + password);
+		var user={"userName":username,"password":password};
+		$.ajax({
+			type:"post",
+			url:"/insurance/login",
+			data:JSON.stringify(user),
+			contentType:"application/json",
+			dataType:"json",
+			success:function(result){
+				window.location=result.data.redirectUrl;
+			},
+			error:function(e){
+				alert("出错:"+e);
+			}
+		});
+	});
+});
+</script>
 </head>
 <body>
-<h1 align="center">用户登录</h1>
-<div>
-	<table align="center">
+<div class="p1">
+</div>
+<div class="p">
+<h1 align="center"><label class="label-control">User Login</label></h1>
+	<table align="center" cellspacing="20px">
 		<tr>
-			<td>用户名：</td>
-			<td><input type="text" name="username" id="username" style="width: 200px" value="zhangsan"/></td>
+			<td><label class="label-control font">User：</label></td>
+			<td><input class="table-control" type="text" id="username" style="width: 200px" value="zhangsan"></input></td>
 		</tr>
 		<tr>
-			<td>密&nbsp;&nbsp;&nbsp;&nbsp;码：</td>
-			<td><input type="password" name="password" id="password" style="width: 200px" value="123456" /></td>
+			<td><label class="label-control font">Password：</label></td>
+			<td><input class="table-control" type="password" id="password" style="width: 200px" value="123456"></input></td>
 		</tr>
 		<tr>
-			<td align="left"><input type="submit" id="login" value="登录" style="width: 100px" /></td>
-			<td align="right"><input type="submit" id="cancel" value="取消" style="width: 100px" /></td>
+			<td align="left"><input class="button green" type="button" id="login"  value="Login" style="width: 100px"></input></td>
+			<td align="right"><input class="button green" type="button" id="cancel" value="Cancel" style="width: 100px"></input></td>
 		</tr>
 	</table>
 </div>

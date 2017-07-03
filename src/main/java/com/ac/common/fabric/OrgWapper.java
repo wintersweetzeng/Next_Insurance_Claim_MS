@@ -45,7 +45,7 @@ public class OrgWapper {
 
     private ResourceLoader loader = new DefaultResourceLoader();
 
-    @PostConstruct
+  //  @PostConstruct
     private void init() throws Exception {
         insuranceOrgInfo = this.initOrgInfo(insuranceInfoConfig);
         hospitalOrgInfo = this.initOrgInfo(hospitalInfoConfig);

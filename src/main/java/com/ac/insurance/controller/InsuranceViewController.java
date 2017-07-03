@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/insurance")
 public class InsuranceViewController {
 
-    @RequestMapping("/init")
+    @RequestMapping(value = {"/init", ""})
     private String login() {
         return "insurance/login";
     }

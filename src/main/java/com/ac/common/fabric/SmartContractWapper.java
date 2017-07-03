@@ -38,7 +38,7 @@ public class SmartContractWapper {
 
 	private ResourceLoader loader = new DefaultResourceLoader();
 
-	@PostConstruct
+	//@PostConstruct
 	private void init() throws Exception {
 
 		HOSPITAL_CHAINCODE_ID = ChaincodeID.newBuilder().setName(SmartContractConstant.Hospital.CHAINCODE_NAME)
