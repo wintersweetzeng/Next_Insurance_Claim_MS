@@ -47,10 +47,9 @@ public class HospitalFabricServiceTest {
 		System.out.println("***********************instant smartcontract End***********************");
 	}
 
-	@Test
+	// @Test
 	public void testInvoke() {
 		System.out.println("***********************invoke smartcontract Start***********************");
-
 		List<MedicineDetailModel> medicines = new ArrayList<>();
 		MedicineDetailModel detail1 = new MedicineDetailModel();
 		detail1.setId("1000");
@@ -81,7 +80,7 @@ public class HospitalFabricServiceTest {
 		System.out.println("***********************invoke smartcontract end***********************");
 	}
 
-	// @Test
+	@Test
 	public void testQuery() {
 		System.out.println("***********************query smartcontract Start***********************");
 
