@@ -2,7 +2,7 @@
 <!-- <html xmlns="http://www.w3.org/1999/xhtml"> -->
 <html>
 <head>
-<title>大连市医院</title>
+<title>hospital</title>
 <link rel="stylesheet" type="text/css" href="http://cdn.bootcss.com/bootstrap/3.3.1/css/bootstrap.min.css" />
 <style type="text/css">
 html,
@@ -30,16 +30,14 @@ body {
 	top: 50%;
 
 	margin-top: -200px;
-	/*设置负值，为要定位子盒子的一半高度*/
 	
 }
 @media screen and (min-width:500px){
 	.login-box {
 		left: 50%;
-		/*设置负值，为要定位子盒子的一半宽度*/
 		margin-left: -250px;
 	}
-}	
+
 
 .form {
 	width: 100%;
@@ -87,6 +85,10 @@ body {
 	padding: 8px 24px !important;
 	font-size: 16px !important;
 }
+.btn_h{
+	width : 470px;
+}
+}	
 </style>
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script type="text/javascript">  
@@ -105,7 +107,7 @@ $(function(){
 				window.location=result.data.redirectUrl;
 			},
 			error:function(e){
-				alert("出错:"+e);
+				alert("error"+e);
 			}
 		});
 	});
@@ -117,7 +119,7 @@ $(function(){
 <div class="box">
 		<div class="login-box">
 			<div class="login-title text-center">
-				<h1><small>大连医院</small></h1>
+				<h1><small>hospital</small></h1>
 			</div>
 			<div class="login-content ">
 			<div class="form">
@@ -139,10 +141,10 @@ $(function(){
 					</div>
 				</div>
 				<div class="form-group form-actions">
-					<div class="col-xs-4 col-xs-offset-4 ">
+					<div class="col-xs-4 ">
 					
-					<input class="btn btn-sm btn-info" type="button" id="login"  value="login" style="width: 100px"/>
-						
+					<input class="btn_h btn btn-sm btn-info" type="button" id="login"  value="login"/>
+
 					</div>
 				</div>
 

@@ -9,7 +9,9 @@ import com.ac.hosptial.model.MedicineDetailModel;
  */
 public interface HospitalFabricService {
 
-	void save(List<MedicineDetailModel> medicineDetailList, String userId) throws Exception;
+    void save(List<MedicineDetailModel> medicineDetailList, String userId) throws Exception;
 
-	String query(String userId) throws Exception;
+    String query(String userId);
+
+    void claim(String userId, String expenseTime) throws Exception;
 }

@@ -47,7 +47,7 @@ public class HospitalFabricServiceTest {
 		System.out.println("***********************instant smartcontract End***********************");
 	}
 
-	// @Test
+	//@Test
 	public void testInvoke() {
 		System.out.println("***********************invoke smartcontract Start***********************");
 		List<MedicineDetailModel> medicines = new ArrayList<>();

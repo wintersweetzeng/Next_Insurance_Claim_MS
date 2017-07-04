@@ -19,6 +19,7 @@ type ExpenseDetail struct {
 	//yyyyMMddHHmmss
 	ExpenseTime string
 	Claimed bool
+	ClaimExpense int
 	Medicines []*MedicineDetail
 }
 
@@ -34,11 +35,15 @@ func (t *HospitalChainCode) Init(stub shim.ChaincodeStubInterface) pb.Response {
 // "number":10},{"id":"2000","name":"med2000","price":20,"number":10},{"id":"3000","name":"med3000","price":30,"number":10}]}
 func (t *HospitalChainCode) Invoke(stub shim.ChaincodeStubInterface) pb.Response {
 	function, args := stub.GetFunctionAndParameters()
+
 	if function == "invoke" {
 		return t.invoke(stub, args)
 	} else if function == "query" {
 		return t.query(stub, args)
+	} else if function == "claim" {
+		return t.claim(stub, args)
 	}
+
 	return shim.Error(`invalid invoke function name: "invoke" "query"`)
 }
 
@@ -67,7 +72,6 @@ func (t *HospitalChainCode) invoke(stub shim.ChaincodeStubInterface, args []stri
 	if len(usrMapdataBytes) != 0 {
 		jsonErr := json.Unmarshal(usrMapdataBytes, &usrMapdata)
 		if jsonErr != nil {
-			fmt.Print(jsonErr)
 			return shim.Error("Failed to Unmarshal!")
 		}
 	}
@@ -82,6 +86,55 @@ func (t *HospitalChainCode) invoke(stub shim.ChaincodeStubInterface, args []stri
 	//buf := new(bytes.Buffer)
 	//binary.Write(buf, binary.BigEndian, usrMapdata)
 	stub.PutState(jsonObj.Uid, userMapJson)
+
+	return shim.Success([]byte("success!"))
+}
+
+func (t *HospitalChainCode) claim(stub shim.ChaincodeStubInterface, args []string) pb.Response {
+
+	if len(args) != 2 {
+		return shim.Error("Incorrect number of arguments. Expecting 2-> uid and claimExpenseTime")
+	}
+
+	uid := args[0]
+	time :=args[1]
+
+	usrMapdata := []ExpenseDetail{}
+
+	// usrMapdataBytes is []byte
+	usrMapdataBytes, err := stub.GetState(uid)
+
+	// map is not found
+	if len(usrMapdataBytes) != 0 {
+		jsonErr := json.Unmarshal(usrMapdataBytes, &usrMapdata)
+		if jsonErr != nil {
+			return shim.Error("Failed to Unmarshal!")
+		}
+	}
+
+	for index, value := range usrMapdata {
+		if value.Uid == uid && value.ExpenseTime == time {
+
+			value.Claimed = true
+			expense := 0
+			for _, exVal := range value.Medicines {
+				expense = expense + exVal.Price * exVal.Number - 10
+			}
+
+			value.ClaimExpense = expense
+		}
+
+		usrMapdata[index] = value
+	}
+
+	userMapJson, err := json.Marshal(usrMapdata)
+	if  err != nil {
+		return shim.Error("Failed to Marshal!")
+	}
+
+	//buf := new(bytes.Buffer)
+	//binary.Write(buf, binary.BigEndian, usrMapdata)
+	stub.PutState(uid, userMapJson)
 
 	return shim.Success([]byte("success!"))
 }

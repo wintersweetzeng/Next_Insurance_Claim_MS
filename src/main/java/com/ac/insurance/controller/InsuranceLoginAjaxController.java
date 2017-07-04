@@ -1,6 +1,7 @@
 package com.ac.insurance.controller;
 
 import com.ac.common.ajax.AjaxResult;
+import com.ac.common.constant.UserInfoConstant;
 import com.ac.common.controller.AbstractAjaxController;
 import com.ac.hosptial.model.LoginModel;
 import org.apache.commons.lang3.StringUtils;
@@ -16,8 +17,8 @@ public class InsuranceLoginAjaxController extends AbstractAjaxController {
     @PostMapping("/login")
     private AjaxResult login(@RequestBody LoginModel user) {
 
-        if (StringUtils.equalsIgnoreCase("zhangsan", user.getUserName()) && StringUtils.equalsIgnoreCase(
-                "123456", user.getPassword())) {
+        if (StringUtils.equalsIgnoreCase(UserInfoConstant.USER_NAME, user.getUserName()) && StringUtils.equalsIgnoreCase(
+                UserInfoConstant.USER_PASSWORD, user.getPassword())) {
             AjaxResult result = AjaxResult.success();
             result.addData("redirectUrl", "/insurance/main");
             return result;

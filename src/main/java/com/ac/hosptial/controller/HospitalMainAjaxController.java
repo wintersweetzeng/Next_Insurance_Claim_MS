@@ -1,9 +1,12 @@
 package com.ac.hosptial.controller;
 
 import com.ac.common.ajax.AjaxResult;
+import com.ac.common.constant.UserInfoConstant;
 import com.ac.common.controller.AbstractAjaxController;
 import com.ac.hosptial.model.MedicineDetailModel;
+import com.ac.hosptial.service.HospitalFabricService;
 import com.google.common.collect.Lists;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,12 +15,15 @@ import java.util.List;
  * Created by zhenchao.bi on 6/26/2017.
  */
 @RestController
-@RequestMapping("/hospital")
+@RequestMapping("/hospital/main")
 public class HospitalMainAjaxController extends AbstractAjaxController {
 
-    @GetMapping("/main/init")
+    @Autowired
+    private HospitalFabricService service;
+
+    @GetMapping("/init")
     @ResponseBody
-    private AjaxResult main() {
+    private AjaxResult init() {
 
         List<MedicineDetailModel> medicineDetailList = Lists.newArrayList();
 
@@ -42,6 +48,19 @@ public class HospitalMainAjaxController extends AbstractAjaxController {
         AjaxResult result = AjaxResult.success();
         result.addData("medicineDetailList", medicineDetailList);
         return result;
+    }
+
+    @PostMapping("/upload")
+    private AjaxResult save(@RequestBody List<MedicineDetailModel> medicineDetailList) {
+        try {
+            service.save(medicineDetailList, UserInfoConstant.USER_ID);
+        } catch (Exception ex) {
+            AjaxResult fail = AjaxResult.fail();
+            fail.addData("msg", "Save Error!Pls try again!");
+            return fail;
+        }
+
+        return AjaxResult.success();
     }
 
 }
