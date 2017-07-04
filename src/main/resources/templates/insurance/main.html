@@ -15,16 +15,17 @@
     <meta content="width=device-width, initial-scale=1" name="viewport"/>
     <meta content="" name="description"/>
     <meta content="" name="author"/>
-    <link href="/assets/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
-    <link href="/assets//plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css"/>
-    <link href="/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
-    <link href="/assets/plugins/uniform/css/uniform.default.css" rel="stylesheet" type="text/css"/>
-    <link href="/assets/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css"/>
-    <link href="/assets/css/components-md.min.css" rel="stylesheet" id="style_components" type="text/css"/>
-    <link href="/assets/css/plugins-md.min.css" rel="stylesheet" type="text/css"/>
-    <link href="/assets/layouts/layout3/css/layout.css" rel="stylesheet" type="text/css"/>
-    <link href="/assets/layouts/layout3/css/themes/default.min.css" rel="stylesheet" type="text/css" id="style_color"/>
-    <link href="/assets/layouts/layout3/css/custom.min.css" rel="stylesheet" type="text/css"/>
+    <link href="../assets/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+    <link href="../assets//plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css"/>
+    <link href="../assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <link href="../assets/plugins/uniform/css/uniform.default.css" rel="stylesheet" type="text/css"/>
+    <link href="../assets/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css"/>
+    <link href="../assets/css/components-md.min.css" rel="stylesheet" id="style_components" type="text/css"/>
+    <link href="../assets/css/plugins-md.min.css" rel="stylesheet" type="text/css"/>
+    <link href="../assets/layouts/layout3/css/layout.css" rel="stylesheet" type="text/css"/>
+    <link href="../assets/layouts/layout3/css/themes/default.min.css" rel="stylesheet" type="text/css"
+          id="style_color"/>
+    <link href="../assets/layouts/layout3/css/custom.min.css" rel="stylesheet" type="text/css"/>
     <link rel="shortcut icon" href="favicon.ico"/>
 </head>
 <!-- END HEAD -->
@@ -38,7 +39,7 @@
             <!-- BEGIN LOGO -->
             <div class="page-logo">
                 <a href="#">
-                    <img style="width:300px" src="/assets/images/accslogoc.png" alt="logo" class="logo-default"/>
+                    <img style="width:300px" src="../assets/images/accslogoc.png" alt="logo" class="logo-default"/>
                 </a>
             </div>
             <!-- END LOGO -->
@@ -100,8 +101,8 @@
                     <li class="dropdown dropdown-user dropdown-dark">
                         <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"
                            data-close-others="true">
-                            <img alt="" class="img-circle" src="../assets/img/avatar.jpg" />
-                            <span class="username username-hide-mobile">zhang San</span>
+                            <img alt="" class="img-circle" src="../assets/img/avatar.jpg"/>
+                            <span class="username username-hide-mobile">Zhang San</span>
                         </a>
                     </li>
                     <!-- END USER LOGIN DROPDOWN -->
@@ -200,42 +201,11 @@
                                             <td><label class="label-control font">Time</label></td>
                                             <td><label class="label-control font">Fee(RMB)</label></td>
                                             <td><label class="label-control font">Claim status</label></td>
-                                            <td><label class="label-control font">Claim fee(RMB)</label></td>
+                                            <td><label class="label-control font">Claim Fee(RMB)</label></td>
                                             <td><label class="label-control font">Detail</label></td>
                                         </tr>
                                         </thead>
-                                        <tbody>
-
-                                        <tr>
-                                            <td><label class="label-control font">2015/2/28</label></td>
-                                            <td><label class="label-control font">35800</label></td>
-                                            <td><span class="label label-sm label-success"> completed </span></td>
-                                            <td>
-                                                <button type="button" class="btn blue-madison detail"
-                                                        data-toggle="modal" href="#responsive">Detail
-                                                </button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><label class="label-control font">2016/4/10</label></td>
-                                            <td><label class="label-control font">25000</label></td>
-                                            <td><span class="label label-sm label-success"> completed </span></td>
-                                            <td>
-                                                <button type="button" class="btn blue-madison detail"
-                                                        data-toggle="modal" href="#responsive">Detail
-                                                </button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><label class="label-control font">2017/6/22</label></td>
-                                            <td><label class="label-control font">4600</label></td>
-                                            <td><span class="label label-sm label-danger">uncompleted </span></td>
-                                            <td>
-                                                <button type="button" class="btn blue-madison detail" id="detail">
-                                                    Detail
-                                                </button>
-                                            </td>
-                                        </tr>
+                                        <tbody id="html-info">
 
 
                                         </tbody>
@@ -279,25 +249,13 @@
                     <table class="table table-bordered table-striped table-condensed flip-content">
                         <thead class="flip-content">
                         <tr>
-                            <td><label class="label-control font" id="id">id</label></td>
-                            <td><label class="label-control font" id="name">name</label></td>
-                            <td><label class="label-control font" id="price">price(RMB)</label></td>
-
+                            <td><label class="label-control font" id="id">Id</label></td>
+                            <td><label class="label-control font" id="name">Name</label></td>
+                            <td><label class="label-control font" id="price">Price(RMB)</label></td>
+                            <td><label class="label-control font" id="number">Number</label></td>
                         </tr>
                         </thead>
                         <tbody id="tbody-result">
-
-                        <tr>
-                            <td><label class="label-control font" id="medicine_id">1</label></td>
-                            <td><label class="label-control font" id="medicine_name">a</label></td>
-                            <td><label class="label-control font" id="price">222</label></td>
-                        </tr>
-                        <tr>
-                            <td><label class="label-control font" id="medicine_id">2</label></td>
-                            <td><label class="label-control font" id="medicine_name">b</label></td>
-                            <td><label class="label-control font" id="price">333</label></td>
-                        </tr>
-
 
                         </tbody>
                     </table>
@@ -316,88 +274,107 @@
 
 
 <script src="http://code.jquery.com/jquery-latest.js"></script>
-<script type="text/javascript" src="/jquery.tmpl.js"></script>
-<script src="/assets/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-<script src="/assets/plugins/js.cookie.min.js" type="text/javascript"></script>
-<script src="/assets/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js"
+<script src="http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
+<script src="../assets/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="../assets/plugins/js.cookie.min.js" type="text/javascript"></script>
+<script src="../assets/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js"
         type="text/javascript"></script>
-<script src="/assets/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
-<script src="/assets/plugins/jquery.blockui.min.js" type="text/javascript"></script>
-<script src="/assets/plugins/uniform/jquery.uniform.min.js" type="text/javascript"></script>
-<script src="/assets/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
-<script src="/assets/plugins/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
+<script src="../assets/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
+<script src="../assets/plugins/jquery.blockui.min.js" type="text/javascript"></script>
+<script src="../assets/plugins/uniform/jquery.uniform.min.js" type="text/javascript"></script>
+<script src="../assets/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
+<script src="../assets/plugins/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
+<script id="items" type="text/x-jquery-tmpl">
+             <tr>
+                <td>
+                1
+                </td>
+                <td>
+                2
+                </td>
+                <td>
+                </td>
+                <td>
+                </td>
+                </tr>
 
-<script type="text/template" id="regionCheckboxTemplate">
 
-    <tr>
-        <td><label class="label-control font">{{= ExpenseTime}}</label></td>
-        <td><label class="label-control font">{{= ExpenseTime}}</label></td>
-        <td><label class="label-control font">{{= ExpenseTime}}</label></td>
-        <td><span class="label label-sm label-success"> {{=ClaimExpense}} </span></td>
-        <td>
-            <button type="button" class="btn blue-madison detail"
-                    data-toggle="modal" href="#responsive">Detail
-            </button>
-        </td>
-    </tr>
+
 
 </script>
 
 <script type="text/javascript">
     $(function () {
+        var html = [];
+        var bData;
+        var str;
 
-        $.ajax({
-            type: "GET",
-            url: "/insurance/main/load",
-            dataType: "json",
-            success: function (result) {
-                if (result.data.json != "") {
-                    var detailArray = JSON.parse(result.data.json);
-                    for (val in detailArray) {
-
-                    }
-
+        $.getJSON("/insurance/main/load", function (data) {
+            //var jsonData = JSON.parse(data);
+            //console.log(data.data.json);
+            bData = $.parseJSON(data.data.json);
+            $.each(bData, function (key, value) {
+                console.log(value);
+                str = '<tr><td>' + value.ExpenseTime + '</td><td>' + value.Expense + '</td><td>';
+                if (value.Claimed == false) {
+                    str += '<button type="button" class="btn danger clamied" data-key="' + value.ExpenseTime + '">Claim</button>';
+                } else {
+                    str += '<span class="label label-sm label-success"> completed </span>';
                 }
-            },
-            error: function (e) {
-                alert("出错:" + e);
-            }
+
+                str += '</td><td>' + value.ClaimExpense;
+
+                str += '</td><td><button type="button" class="btn blue-madison detail" data-key="' + key + '" data-toggle="modal" href="#responsive">Detail</button></td></tr>';
+                html.push(str);
+            });
+
+            $('#html-info').html(html.join(" "));
+
         });
 
+        $('body').on('click', '.detail', function (e) {
+            var key = $(this).attr('data-key');
+            var mStr = '';
+            $.each(bData[key].Medicines, function (k, v) {
+                mStr += '<tr><td>' + v.Id + '</td><td>' + v.Name + '</td><td>' + v.Price + '</td><td>' + v.Number + '</td></tr>';
+            });
 
-        $("#detail").click(function () {
-            confirm('是否要报销');
-            var id = $("#id").val();
-            var name = $("#name").val();
-            var price = $("#price").val();
-            var medicine = {"id": id, "name": name, "price": price}
-            var tbody = window.document.getElementById("tbody-result");
-            $.ajax({
-                type: "GET",
-                url: "/insurance/view",
-                data: JSON.stringify(medicine),
-                contentType: "application/json",
-                dataType: "json",
-                success: function (data) {
-                    if (data != null) {
-                        var str = "";
-                        var table_data = table_data.data;
-                        for (var i in table_data) {
-                            str += "<tr>" +
-                                "<td>" + table_data[i].id + "</td>" +
-                                "<td>" + table_data[i].name + "</td>" +
-                                "<td>" + table_data[i].price + "</td>" +
-                                "</tr>";
-                        }
-                        tbody.innerHTML = str;
-                    }
-                },
-                error: function (e) {
-                    alert("出错:" + e);
+            $('#tbody-result').html(mStr);
+            //console.log(mStr);
+        });
+
+        $('body').on('click', '.clamied', function (e) {
+            var expenseTime = $(this).attr("data-key");
+            $.getJSON("/insurance/main/claim", {"expenseTime": expenseTime}, function (data) {
+                if (data.result == true) {
+                    alert("Claim success!");
+                } else {
+                    alert("Claim fail!");
                 }
             });
+
         });
+
+
     });
+</script>
+
+<script>
+    var movies = [
+        {Name: "The Red Violin", ReleaseYear: "1998"},
+        {Name: "Eyes Wide Shut", ReleaseYear: "1999"},
+        {Name: "The Inheritance", ReleaseYear: "1976"}
+    ];
+
+    var markup = "<li><b>${Name}</b> (${ReleaseYear})</li>";
+
+    /* Compile the markup as a named template */
+    $.template("movieTemplate", markup);
+
+    /* Render the template with the movies data and insert
+     the rendered HTML under the "movieList" element */
+    $.tmpl("movieTemplate", movies)
+        .appendTo("#");
 </script>
 
 
