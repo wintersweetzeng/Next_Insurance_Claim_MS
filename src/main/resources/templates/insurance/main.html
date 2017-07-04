@@ -1,79 +1,405 @@
-<html>
+<!DOCTYPE html>
+<!--[if IE 8]>
+<html lang="en" class="ie8 no-js"> <![endif]-->
+<!--[if IE 9]>
+<html lang="en" class="ie9 no-js"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+<!--<![endif]-->
+<!-- BEGIN HEAD -->
+
 <head>
-<script src="http://code.jquery.com/jquery-latest.js"></script>
-<script type="text/javascript">
-$(function(){
-	$("#detail").click(function(){
-		confirm( '是否要报销');
-		    	var id=$("#id").val();
-				var name=$("#name").val();
-				var price=$("#price").val();
-				var medicine={"id":id,"name":name,"price":price}
-				var tbody=window.document.getElementById("tbody-result");
-				$.ajax({
-					type:"GET",
-					url:"/insurance/view",
-					data:JSON.stringify(medicine),
-					contentType:"application/json",
-					dataType:"json",
-					success:function(data){
-						if(data!= null){
-							var str="";
-							var table_data=table_data.data;
-							for(var i in table_data){
-								str+="<tr>"+
-								"<td>"+table_data[i].id+"</td>"+
-								"<td>"+table_data[i].name+"</td>"+
-								"<td>"+table_data[i].price+"</td>"+
-								"</tr>";
-							}
-							tbody.innerHTML=str;
-						}
-					},
-					error:function(e){
-						alert("出错:"+e);
-					}
-				});
-	});
-});
-</script>
-<link rel="stylesheet" type="text/css" href="/main_ext.css"/>
+    <meta charset="utf-8"/>
+    <title>Main</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <meta content="" name="description"/>
+    <meta content="" name="author"/>
+    <link href="/assets/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+    <link href="/assets//plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css"/>
+    <link href="/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <link href="/assets/plugins/uniform/css/uniform.default.css" rel="stylesheet" type="text/css"/>
+    <link href="/assets/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css"/>
+    <link href="/assets/css/components-md.min.css" rel="stylesheet" id="style_components" type="text/css"/>
+    <link href="/assets/css/plugins-md.min.css" rel="stylesheet" type="text/css"/>
+    <link href="/assets/layouts/layout3/css/layout.css" rel="stylesheet" type="text/css"/>
+    <link href="/assets/layouts/layout3/css/themes/default.min.css" rel="stylesheet" type="text/css" id="style_color"/>
+    <link href="/assets/layouts/layout3/css/custom.min.css" rel="stylesheet" type="text/css"/>
+    <link rel="shortcut icon" href="favicon.ico"/>
 </head>
-<body>
-<div class="p1">
+<!-- END HEAD -->
+
+<body class="page-container-bg-solid page-boxed page-md">
+<!-- BEGIN HEADER -->
+<div class="page-header">
+    <!-- BEGIN HEADER TOP -->
+    <div class="page-header-top">
+        <div class="container">
+            <!-- BEGIN LOGO -->
+            <div class="page-logo">
+                <a href="#">
+                    <img style="width:300px" src="/assets/images/accslogoc.png" alt="logo" class="logo-default"/>
+                </a>
+            </div>
+            <!-- END LOGO -->
+            <!-- BEGIN TOP NAVIGATION MENU -->
+            <div class="top-menu">
+                <ul class="nav navbar-nav pull-right">
+                    <!-- BEGIN NOTIFICATION DROPDOWN -->
+                    <li class="dropdown dropdown-extended dropdown-notification dropdown-dark"
+                        id="header_notification_bar">
+                        <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"
+                           data-close-others="true">
+                            <i class="icon-bell"></i>
+                            <span class="badge badge-default">7</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="external">
+                            </li>
+                            <li>
+                                <ul class="dropdown-menu-list scroller" style="height: 250px;"
+                                    data-handle-color="#637283">
+
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- END NOTIFICATION DROPDOWN -->
+                    <!-- BEGIN TODO DROPDOWN -->
+                    <li class="dropdown dropdown-extended dropdown-tasks dropdown-dark" id="header_task_bar">
+                        <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"
+                           data-close-others="true">
+                            <i class="icon-calendar"></i>
+                            <span class="badge badge-default">3</span>
+                        </a>
+                        <ul class="dropdown-menu extended tasks">
+                            <li class="external">
+                            </li>
+                            <li>
+                                <ul class="dropdown-menu-list scroller" style="height: 275px;"
+                                    data-handle-color="#637283">
+
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- END TODO DROPDOWN -->
+                    <li class="droddown dropdown-separator">
+                        <span class="separator"></span>
+                    </li>
+                    <!-- BEGIN INBOX DROPDOWN -->
+                    <li class="dropdown dropdown-extended dropdown-inbox dropdown-dark" id="header_inbox_bar">
+                        <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"
+                           data-close-others="true">
+                            <span class="circle">3</span>
+                            <span class="corner"></span>
+                        </a>
+                    </li>
+                    <!-- END INBOX DROPDOWN -->
+                    <!-- BEGIN USER LOGIN DROPDOWN -->
+                    <li class="dropdown dropdown-user dropdown-dark">
+                        <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"
+                           data-close-others="true">
+                            <img alt="" class="img-circle" src="../assets/img/avatar.jpg" />
+                            <span class="username username-hide-mobile">zhang San</span>
+                        </a>
+                    </li>
+                    <!-- END USER LOGIN DROPDOWN -->
+                    <!-- BEGIN QUICK SIDEBAR TOGGLER -->
+                    <li class="dropdown dropdown-extended quick-sidebar-toggler">
+                        <span class="sr-only">Toggle Quick Sidebar</span>
+                        <i class="icon-logout"></i>
+                    </li>
+                    <!-- END QUICK SIDEBAR TOGGLER -->
+                </ul>
+            </div>
+            <!-- END TOP NAVIGATION MENU -->
+        </div>
+    </div>
+    <!-- END HEADER TOP -->
+    <!-- BEGIN HEADER MENU -->
+    <div class="page-header-menu">
+        <div class="container">
+            <!-- BEGIN HEADER SEARCH BOX -->
+            <form class="search-form" action="" method="GET">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search" name="query"/>
+                    <span class="input-group-btn">
+                                <a href="javascript:;" class="btn submit">
+                                    <i class="icon-magnifier"></i>
+                                </a>
+                            </span>
+                </div>
+            </form>
+            <!-- END HEADER SEARCH BOX -->
+            <!-- BEGIN MEGA MENU -->
+            <div class="hor-menu  ">
+                <ul class="nav navbar-nav">
+                    <li class="menu-dropdown classic-menu-dropdown ">
+                        <a href="javascript:;"> Dashboard
+                            <span class="arrow"></span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <!-- END MEGA MENU -->
+        </div>
+    </div>
+    <!-- END HEADER MENU -->
 </div>
-<div>
-<h1 align="center"><label class="label-control">Settlement of claims</label></h1>
-	<table align="center" id="table">
-		<thead>
-		<tr>
-			<td><label class="label-control font">time</label></td>
-			<td><label class="label-control font">fee(RMB)</label></td>
-			<td><label class="label-control font">status</label></td>
-			<td><label class="label-control font">operation</label></td>
-		</tr>
-		</thead>
-		<tbody>
-		<tr>
-			<td><label class="label-control font">2015/2/28</label></td>
-			<td><label class="label-control font">35800</label></td>
-			<td><label class="label-control font">completed</label></td>
-			<td><input class="button green" type="button" value="detail"/></td>
-		</tr>
-		<tr>
-			<td><label class="label-control font">2016/4/10</label></td>
-			<td><label class="label-control font">25000</label></td>
-			<td><label class="label-control font">completed</label></td>
-			<td><input class="button green" type="button" value="detail"/></td>
-		</tr>
-		<tr>
-			<td><label class="label-control font">2017/6/22</label></td>
-			<td><label class="label-control font">4600</label></td>
-			<td><label class="label-control font">uncompleted</label></td>
-			<td><input class="button green" type="button" id="detail" value="detail" width="50px" /></td>
-		</tr>
-		</tbody>
-	</table>
+<!-- END HEADER -->
+<!-- BEGIN CONTAINER -->
+<div class="page-container">
+    <!-- BEGIN CONTENT -->
+    <div class="page-content-wrapper">
+        <!-- BEGIN CONTENT BODY -->
+        <!-- BEGIN PAGE HEAD-->
+        <div class="page-head">
+            <div class="container">
+                <!-- BEGIN PAGE TITLE -->
+                <div class="page-title">
+                    <h1>Dashboard
+                        <small></small>
+                    </h1>
+                </div>
+                <!-- END PAGE TITLE -->
+            </div>
+        </div>
+        <!-- END PAGE HEAD-->
+        <!-- BEGIN PAGE CONTENT BODY -->
+        <div class="page-content">
+            <div class="container">
+                <!-- BEGIN PAGE BREADCRUMBS -->
+                <ul class="page-breadcrumb breadcrumb">
+                    <li>
+                        <a href="#">Home</a>
+                        <i class="fa fa-circle"></i>
+                    </li>
+
+                    <li>
+                        <span>Demo</span>
+                    </li>
+                </ul>
+                <!-- END PAGE BREADCRUMBS -->
+                <!-- BEGIN PAGE CONTENT INNER -->
+                <div class="page-content-inner">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <!-- BEGIN SAMPLE TABLE PORTLET-->
+                            <div class="portlet light">
+                                <div class="portlet-title">
+                                    <div class="caption">
+                                        <i class="icon-social-dribbble font-green"></i>
+                                        <span class="caption-subject font-green bold uppercase">Settlement of claims</span>
+                                    </div>
+                                </div>
+                                <div class="portlet-body flip-scroll">
+                                    <table class="table table-bordered table-striped table-condensed flip-content">
+                                        <thead class="flip-content">
+                                        <tr>
+                                            <td><label class="label-control font">Time</label></td>
+                                            <td><label class="label-control font">Fee(RMB)</label></td>
+                                            <td><label class="label-control font">Claim status</label></td>
+                                            <td><label class="label-control font">Claim fee(RMB)</label></td>
+                                            <td><label class="label-control font">Detail</label></td>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+
+                                        <tr>
+                                            <td><label class="label-control font">2015/2/28</label></td>
+                                            <td><label class="label-control font">35800</label></td>
+                                            <td><span class="label label-sm label-success"> completed </span></td>
+                                            <td>
+                                                <button type="button" class="btn blue-madison detail"
+                                                        data-toggle="modal" href="#responsive">Detail
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><label class="label-control font">2016/4/10</label></td>
+                                            <td><label class="label-control font">25000</label></td>
+                                            <td><span class="label label-sm label-success"> completed </span></td>
+                                            <td>
+                                                <button type="button" class="btn blue-madison detail"
+                                                        data-toggle="modal" href="#responsive">Detail
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><label class="label-control font">2017/6/22</label></td>
+                                            <td><label class="label-control font">4600</label></td>
+                                            <td><span class="label label-sm label-danger">uncompleted </span></td>
+                                            <td>
+                                                <button type="button" class="btn blue-madison detail" id="detail">
+                                                    Detail
+                                                </button>
+                                            </td>
+                                        </tr>
+
+
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+                            <!-- END SAMPLE TABLE PORTLET-->
+
+                        </div>
+                    </div>
+                </div>
+                <!-- END PAGE CONTENT INNER -->
+            </div>
+        </div>
+        <!-- END PAGE CONTENT BODY -->
+        <!-- END CONTENT BODY -->
+    </div>
+    <!-- END CONTENT -->
+
 </div>
+<!-- END CONTAINER -->
+<div class="page-footer">
+    <div class="container"> 2017 &copy; Accenture.
+    </div>
+</div>
+<div class="scroll-to-top">
+    <i class="icon-arrow-up"></i>
+</div>
+<!-- END FOOTER -->
+
+<div id="responsive" class="modal fade" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Detail Information</h4>
+            </div>
+            <div class="modal-body">
+                <div class="scroller" style="height:300px" data-always-visible="1" data-rail-visible1="1">
+                    <table class="table table-bordered table-striped table-condensed flip-content">
+                        <thead class="flip-content">
+                        <tr>
+                            <td><label class="label-control font" id="id">id</label></td>
+                            <td><label class="label-control font" id="name">name</label></td>
+                            <td><label class="label-control font" id="price">price(RMB)</label></td>
+
+                        </tr>
+                        </thead>
+                        <tbody id="tbody-result">
+
+                        <tr>
+                            <td><label class="label-control font" id="medicine_id">1</label></td>
+                            <td><label class="label-control font" id="medicine_name">a</label></td>
+                            <td><label class="label-control font" id="price">222</label></td>
+                        </tr>
+                        <tr>
+                            <td><label class="label-control font" id="medicine_id">2</label></td>
+                            <td><label class="label-control font" id="medicine_name">b</label></td>
+                            <td><label class="label-control font" id="price">333</label></td>
+                        </tr>
+
+
+                        </tbody>
+                    </table>
+
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn green">Submit</button>
+
+                <button type="button" data-dismiss="modal" class="btn dark btn-outline">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script type="text/javascript" src="/jquery.tmpl.js"></script>
+<script src="/assets/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="/assets/plugins/js.cookie.min.js" type="text/javascript"></script>
+<script src="/assets/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js"
+        type="text/javascript"></script>
+<script src="/assets/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
+<script src="/assets/plugins/jquery.blockui.min.js" type="text/javascript"></script>
+<script src="/assets/plugins/uniform/jquery.uniform.min.js" type="text/javascript"></script>
+<script src="/assets/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
+<script src="/assets/plugins/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
+
+<script type="text/template" id="regionCheckboxTemplate">
+
+    <tr>
+        <td><label class="label-control font">{{= ExpenseTime}}</label></td>
+        <td><label class="label-control font">{{= ExpenseTime}}</label></td>
+        <td><label class="label-control font">{{= ExpenseTime}}</label></td>
+        <td><span class="label label-sm label-success"> {{=ClaimExpense}} </span></td>
+        <td>
+            <button type="button" class="btn blue-madison detail"
+                    data-toggle="modal" href="#responsive">Detail
+            </button>
+        </td>
+    </tr>
+
+</script>
+
+<script type="text/javascript">
+    $(function () {
+
+        $.ajax({
+            type: "GET",
+            url: "/insurance/main/load",
+            dataType: "json",
+            success: function (result) {
+                if (result.data.json != "") {
+                    var detailArray = JSON.parse(result.data.json);
+                    for (val in detailArray) {
+
+                    }
+
+                }
+            },
+            error: function (e) {
+                alert("出错:" + e);
+            }
+        });
+
+
+        $("#detail").click(function () {
+            confirm('是否要报销');
+            var id = $("#id").val();
+            var name = $("#name").val();
+            var price = $("#price").val();
+            var medicine = {"id": id, "name": name, "price": price}
+            var tbody = window.document.getElementById("tbody-result");
+            $.ajax({
+                type: "GET",
+                url: "/insurance/view",
+                data: JSON.stringify(medicine),
+                contentType: "application/json",
+                dataType: "json",
+                success: function (data) {
+                    if (data != null) {
+                        var str = "";
+                        var table_data = table_data.data;
+                        for (var i in table_data) {
+                            str += "<tr>" +
+                                "<td>" + table_data[i].id + "</td>" +
+                                "<td>" + table_data[i].name + "</td>" +
+                                "<td>" + table_data[i].price + "</td>" +
+                                "</tr>";
+                        }
+                        tbody.innerHTML = str;
+                    }
+                },
+                error: function (e) {
+                    alert("出错:" + e);
+                }
+            });
+        });
+    });
+</script>
+
+
 </body>
 </html>

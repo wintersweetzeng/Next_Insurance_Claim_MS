@@ -58,7 +58,7 @@ public class ChannelWapper {
 
 	private ResourceLoader loader = new DefaultResourceLoader();
 
-	//@PostConstruct
+	@PostConstruct
 	private void init() throws Exception {
 		client = HFClient.createNewInstance();
 		client.setCryptoSuite(CryptoSuite.Factory.getCryptoSuite());

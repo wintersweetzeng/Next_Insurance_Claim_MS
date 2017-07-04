@@ -1,0 +1,104 @@
+<html>
+<head>
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script type="text/javascript">  
+$(function(){
+	$("#cancel2").click(function(){
+		window.location.href="main.html";
+	});
+ 	$("#submit2").click(function(){
+		var totalRow = 0 ;
+		$('#mytable tbody tr').each(function() { 
+		$(this).find('td:eq(2)').each(function(){ 
+			if($(this).text()&&!isNaN($(this).text()))
+			totalRow += parseFloat($(this).text()); 
+		});  
+	});
+		 alert(totalRow);
+	}); 
+ 	$('a.btn-ok, #dialog-overlay, #dialog-box').click(function () { 
+		$('#dialog-overlay, #dialog-box').hide(); 
+		return false; 
+	});
+	$(window).resize(function () {  
+		(!$('#dialog-box').is(':hidden'))
+		popup();
+	});
+});
+function popup(message) { 
+	var maskHeight = $(document).height(); 
+	var maskWidth = $(window).width(); 
+	var dialogHeight = $('#dialog-box').outerHeight(); 
+	var dialogWidth = $('#dialog-box').outerWidth(); 
+	$('#dialog-overlay').css({height:maskHeight, width:maskWidth}).show(); 
+	$('#dialog-box').css({ top: "50%", left:"50%", "margin-left": -(dialogWidth/2), "margin-top": -(dialogHeight/2) }).show(); 
+	$('#dialog-message').html(message); }
+</script>
+<link rel="stylesheet" type="text/css" href="/sample.css"/>
+</head>
+<body>
+<div class="p1">
+</div>
+<div>
+<h1 align="center"><label class="label-control">Detail Information</label></h1>
+	<table id="mytable" align="center" cellspacing="20px" border="1">
+		<thead>
+		<tr>
+			<td><label class="label-control font" id="id">id</label></td>
+			<td><label class="label-control font" id="name">name</label></td>
+			<td><label class="label-control font" id="price">price(RMB)</label></td>
+			<td><label class="label-control font" id="detail"><a>detail</a></label></td>
+		</tr>
+		</thead>
+		<tbody id="tbody-result">
+		</tbody>
+		<tr>
+			<td><label class="label-control font" id="medicine_id">1</label></td>
+			<td><label class="label-control font" id="medicine_name">a</label></td>
+			<td><label class="label-control font" id="price">222</label></td>
+			<td><label class="label-control font" id="detail">detail</label></td>
+		</tr>
+		<tr>
+			<td><label class="label-control font" id="medicine_id">2</label></td>
+			<td><label class="label-control font" id="medicine_name">b</label></td>
+			<td><label class="label-control font" id="price">333</label></td>
+			<td><label class="label-control font" id="detail"><a href="javascript:popup('medicine-detail')">detail</a>
+			</label>
+			<div id="dialog-overlay"></div>
+			<div id="dialog-box">
+			    <div class="dialog-content">
+			        <div id="dialog-message"></div>
+			        <table align="center" style="margin-top: 30px">
+			        	<tr>
+			        		<td>id</td>
+			        		<td>name</td>
+			        		<td>price</td>
+			        		<td>number</td>
+			        	</tr>
+			        	<tr>
+			        		<td>1</td>
+			        		<td>name</td>
+			        		<td>11</td>
+			        		<td>2</td>
+			        	</tr>
+			        	<tr>
+			        		<td>2</td>
+			        		<td>name</td>
+			        		<td>11</td>
+			        		<td>3</td>
+			        	</tr>
+			        </table>
+			        <a href="#" class="button">Close</a>
+			    </div>
+			</div></td>
+		</tr>
+		<tr>
+			<td align="left"><input class="button green" type="button" id="submit2" value="submit" style="width: 100px" /></td>
+			<td></td>
+			<td></td>
+			<td align="right"><input class="button green" type="button" id="cancel1" value="cancel" style="width: 100px" /></td>
+		</tr>
+	</table>
+</div>
+</body>
+</html>

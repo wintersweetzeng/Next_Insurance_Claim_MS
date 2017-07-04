@@ -1,205 +1,267 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"><!-- html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" -->
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0"/>
-    <title>haospital</title>
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+    <!--<![endif]-->
+    <!-- BEGIN HEAD -->
 
-    <link rel="stylesheet" type="text/css"/><!--  -->
+    <head>
+        <meta charset="utf-8" />
+        <title>Main</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta content="width=device-width, initial-scale=1" name="viewport" />
+        <meta content="" name="description" />
+        <meta content="" name="author" />
+        <link href="/assets/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+        <link href="/assets//plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css" />
+        <link href="/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="/assets/plugins/uniform/css/uniform.default.css" rel="stylesheet" type="text/css" />
+        <link href="/assets/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css" />
+        <link href="/assets/css/components-md.min.css" rel="stylesheet" id="style_components" type="text/css" />
+        <link href="/assets/css/plugins-md.min.css" rel="stylesheet" type="text/css" />
+        <link href="/assets/layouts/layout3/css/layout.css" rel="stylesheet" type="text/css" />
+        <link href="/assets/layouts/layout3/css/themes/default.min.css" rel="stylesheet" type="text/css" id="style_color" />
+        <link href="/assets/layouts/layout3/css/custom.min.css" rel="stylesheet" type="text/css" />
+        <link rel="shortcut icon" href="favicon.ico" /> </head>
+    <!-- END HEAD -->
 
-    <style type="text/css">
-        html, body {
-            height: 100%;
-        }
+    <body class="page-container-bg-solid page-boxed page-md">
+        <!-- BEGIN HEADER -->
+        <div class="page-header">
+            <!-- BEGIN HEADER TOP -->
+            <div class="page-header-top">
+                <div class="container">
+                    <!-- BEGIN LOGO -->
+                    <div class="page-logo">
+                        <a href="#">
+                            <img style="width:300px" src="/assets/images/acclogom.png" alt="logo" class="logo-default" ></img>
+                        </a>
+                    </div>
+                    <!-- END LOGO -->
+                    <!-- BEGIN RESPONSIVE MENU TOGGLER -->
+                    <a href="javascript:;" class="menu-toggler"></a>
+                    <!-- END RESPONSIVE MENU TOGGLER -->
+                    <!-- BEGIN TOP NAVIGATION MENU -->
+                    <div class="top-menu">
+                        <ul class="nav navbar-nav pull-right">
+                            <!-- BEGIN NOTIFICATION DROPDOWN -->
+                            <li class="dropdown dropdown-extended dropdown-notification dropdown-dark" id="header_notification_bar">
+                                <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                                    <i class="icon-bell"></i>
+                                    <span class="badge badge-default">7</span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="external">
+                                    </li>
+                                    <li>
+                                        <ul class="dropdown-menu-list scroller" style="height: 250px;" data-handle-color="#637283">
+                                            
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <!-- END NOTIFICATION DROPDOWN -->
+                            <!-- BEGIN TODO DROPDOWN -->
+                            <li class="dropdown dropdown-extended dropdown-tasks dropdown-dark" id="header_task_bar">
+                                <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                                    <i class="icon-calendar"></i>
+                                    <span class="badge badge-default">3</span>
+                                </a>
+                                <ul class="dropdown-menu extended tasks">
+                                    <li class="external">
+                                    </li>
+                                    <li>
+                                        <ul class="dropdown-menu-list scroller" style="height: 275px;" data-handle-color="#637283">
+                                           
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <!-- END TODO DROPDOWN -->
+                            <li class="droddown dropdown-separator">
+                                <span class="separator"></span>
+                            </li>
+                            <!-- BEGIN INBOX DROPDOWN -->
+                            <li class="dropdown dropdown-extended dropdown-inbox dropdown-dark" id="header_inbox_bar">
+                                <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                                    <span class="circle">3</span>
+                                    <span class="corner"></span>
+                                </a>
+                            </li>
+                            <!-- END INBOX DROPDOWN -->
+                            <!-- BEGIN USER LOGIN DROPDOWN -->
+                            <li class="dropdown dropdown-user dropdown-dark">
+                                <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                                    <img alt="" class="img-circle" src="../assets/img/avatar.jpg"/>
+                                    <span class="username username-hide-mobile">某医生</span>
+                                </a>
+                                                           </li>
+                            <!-- END USER LOGIN DROPDOWN -->
+                            <!-- BEGIN QUICK SIDEBAR TOGGLER -->
+                            <li class="dropdown dropdown-extended quick-sidebar-toggler">
+                                <span class="sr-only">Toggle Quick Sidebar</span>
+                                <i class="icon-logout"></i>
+                            </li>
+                            <!-- END QUICK SIDEBAR TOGGLER -->
+                        </ul>
+                    </div>
+                    <!-- END TOP NAVIGATION MENU -->
+                </div>
+            </div>
+            <!-- END HEADER TOP -->
+            <!-- BEGIN HEADER MENU -->
+            <div class="page-header-menu">
+                <div class="container">
+                    <!-- BEGIN HEADER SEARCH BOX -->
+                    <form class="search-form" action="" method="GET">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Search" name="query" />
+                            <span class="input-group-btn">
+                                <a href="javascript:;" class="btn submit">
+                                    <i class="icon-magnifier"></i>
+                                </a>
+                            </span>
+                        </div>
+                    </form>
+                    <!-- END HEADER SEARCH BOX -->
+                    <!-- BEGIN MEGA MENU -->
+                    <div class="hor-menu  ">
+                        <ul class="nav navbar-nav">
+                            <li class="menu-dropdown classic-menu-dropdown ">
+                                <a href="javascript:;"> Dashboard
+                                    <span class="arrow"></span>
+                                </a>
+                             </li>
+                        </ul>
+                    </div>
+                    <!-- END MEGA MENU -->
+                </div>
+            </div>
+            <!-- END HEADER MENU -->
+        </div>
+        <!-- END HEADER -->
+        <!-- BEGIN CONTAINER -->
+        <div class="page-container">
+            <!-- BEGIN CONTENT -->
+            <div class="page-content-wrapper">
+                <!-- BEGIN CONTENT BODY -->
+                <!-- BEGIN PAGE HEAD-->
+                <div class="page-head">
+                    <div class="container">
+                        <!-- BEGIN PAGE TITLE -->
+                        <div class="page-title">
+                            <h1>Dashboard
+                                <small></small>
+                            </h1>
+                        </div>
+                        <!-- END PAGE TITLE -->
+                    </div>
+                </div>
+                <!-- END PAGE HEAD-->
+                <!-- BEGIN PAGE CONTENT BODY -->
+                <div class="page-content">
+                    <div class="container">
+                        <!-- BEGIN PAGE BREADCRUMBS -->
+                        <ul class="page-breadcrumb breadcrumb">
+                            <li>
+                                <a href="#">Home</a>
+                                <i class="fa fa-circle"></i>
+                            </li>
+                            
+                            <li>
+                                <span>Demo</span>
+                            </li>
+                        </ul>
+                        <!-- END PAGE BREADCRUMBS -->
+                        <!-- BEGIN PAGE CONTENT INNER -->
+                        <div class="page-content-inner">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="note note-success">
+                                        <p> 病人:某某 年龄:99 性别:女 症状:XXXX </p>
+                                    </div>
+                                    <!-- BEGIN SAMPLE TABLE PORTLET-->
+                                    <div class="portlet light"> 
+                                        <div class="portlet-title">
+                                            <div class="caption">
+                                                <i class="icon-social-dribbble font-green"></i>
+                                                <span class="caption-subject font-green bold uppercase">Accenture Medicine Manage</span>
+                                            </div>
+                                            <div class="actions">
+                                                <a id="add" class="btn dark btn-outline btn-circle btn-sm" href="javascript:;">
+                                                     Add <i class="fa fa-plus"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="portlet-body flip-scroll">
+                                            <table class="table table-bordered table-striped table-condensed flip-content">
+                                                <thead class="flip-content">
+                                                    <tr>
+                                                        <th> Class </th>
+                                                        <th> Drug name </th>
+                                                        <th> Price </th>
+                                                        <th> Number </th>
+                                                        <th> </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="tbl1">
+                                                    
+                                                </tbody>
+                                            </table>
+                                             <div class="actions" style="height:50px;">
+                                                <a id="upload" class="btn green btn-outline btn-circle btn-sm pull-right" href="javascript:;">
+                                                     Upload <i class="fa fa-check"></i>
+                                                </a>
+                                            </div>
 
-        .box {
-            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#6699FF', endColorstr='#6699FF'); /*  IE */
-            background-image: linear-gradient(bottom, #6699FF 0%, #6699FF 100%);
-            background-image: -o-linear-gradient(bottom, #6699FF 0%, #6699FF 100%);
-            background-image: -moz-linear-gradient(bottom, #6699FF 0%, #6699FF 100%);
-            background-image: -webkit-linear-gradient(bottom, #6699FF 0%, #6699FF 100%);
-            background-image: -ms-linear-gradient(bottom, #6699FF 0%, #6699FF 100%);
-
-            margin: 0 auto;
-            position: relative;
-            width: 100%;
-            height: 100%;
-        }
-
-        .login-box {
-            width: 100%;
-            max-width: 500px;
-            height: 400px;
-            position: absolute;
-            top: 50%;
-
-            margin-top: -200px;
-
-        }
-
-        .login-boxs {
-            width: 100%;
-            max-width: 1100px;
-            height: 400px;
-            position: absolute;
-            top: 50%;
-
-            margin-top: -300px;
-
-        }
-
-        @media screen and (min-width: 500px) {
-            .login-box {
-                left: 50%;
-                margin-left: -250px;
-            }
-
-            .login-boxs {
-                left: 50%;
-                margin-left: -550px;
-            }
-        }
-
-        .form {
-            width: 100%;
-            max-width: 500px;
-            height: 275px;
-            margin: 25px auto 0px auto;
-            padding-top: 25px;
-        }
-
-        .login-content {
-            height: 300px;
-            width: 100%;
-            max-width: 1000px;
-            background-color: rgba(255, 250, 2550, .6);
-            float: left;
-        }
-
-        .login-content-input {
-            height: 500px;
-            width: 100%;
-            max-width: 1100px;
-            background-color: rgba(255, 250, 2550, .6);
-            float: left;
-        }
-
-        .input-group {
-            margin: 0px 0px 30px 0px !important;
-        }
-
-        .form-control,
-        .input-group {
-            height: 40px;
-        }
-
-        .form-group {
-            margin-bottom: 0px !important;
-        }
-
-        .login-title {
-            padding: 20px 10px;
-            background-color: rgba(0, 0, 0, .6);
-        }
-
-        .login-title h1 {
-            margin-top: 10px !important;
-        }
-
-        .login-title small {
-            color: #fff;
-        }
-
-        .login-titles {
-
-        }
-
-        .link p {
-            line-height: 20px;
-            margin-top: 30px;
-        }
-
-        .btn-sm {
-            padding: 8px 24px !important;
-            font-size: 16px !important;
-        }
-
-        .one_k {
-            margin-top: 10px !important;
-            width: 100%;
-            height: 50px;
-        }
-
-        .one_2w {
-            width: 100px;
-        }
-
-        .one_w {
-            width: 70px;
-        }
-
-        .one_h {
-            height: 20px;
-        }
-
-        .one_bh {
-            height: 14px;
-        }
-
-        .right {
-            float: right;
-        }
-
-        .none {
-            text-align: center;
-        }
-
-        .one_y {
-            color: #fff;
-            background-color: #5bc0de;
-            border-color: #46b8da;
-        }
-
-        }
-
-    </style>
-    <script src="http://code.jquery.com/jquery-latest.js"></script>
+                                        </div>
+                                    </div>
+                                    <!-- END SAMPLE TABLE PORTLET-->
+                                 
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END PAGE CONTENT INNER -->
+                    </div>
+                </div>
+                <!-- END PAGE CONTENT BODY -->
+                <!-- END CONTENT BODY -->
+            </div>
+            <!-- END CONTENT -->
+          
+        </div>
+        <!-- END CONTAINER -->
+        <div class="page-footer">
+            <div class="container"> 2017 &copy; Accenture.
+            </div>
+        </div>
+        <div class="scroll-to-top">
+            <i class="icon-arrow-up"></i>
+        </div>
+        <!-- END FOOTER -->
+         <script src="http://code.jquery.com/jquery-latest.js"></script>
     <script type="text/javascript">
         $(function () {
             var count = 0;
+            var content;
 
             $("#add").click(function () {
 
-                var table = document.getElementById("tbl1");
-                var newRow = table.insertRow(table.rows.length);
-                newRow.id = "row" + count;
+                    content = '<tr><td><select id="classs' + count + '" class="one_h one_w"><option>Drugs</option></select></td><td><select id="username' + count + '" class="one_h one_2w"><option>Alfadolone</option><option>erythromycin</option><option>penicillin</option></select></td><td><input class="one_bh one_w" type="text" id="unitprice' + count + '" value="300"/></td><td><input class="one_bh one_w" type="text" id="number' + count + '"/></td><td><button type="button" class="btn btn-danger item-delete">Delete</button></td></tr>';
 
-                var contentCell = newRow.insertCell(-1);
-
-                contentCell.innerHTML = '<div><select id="classs' + count + '" class="one_h one_w"><option>Drugs</option></select><select id="username' + count + '" class="one_h one_2w"><option>Alfadolone</option><option>erythromycin</option><option>penicillin</option></select><input class="one_bh one_w" type="text" id="unitprice' + count + '" value="300"/><input class="one_bh one_w" type="text" id="number' + count + '"/></div>';
-
-                contentCell = newRow.insertCell(-1);
-
-                var delBtn = document.createElement("input");
-                delBtn.type = "button";
-                delBtn.className = "one_w one_y";
-                delBtn.id = "btnDel" + count;
-                delBtn.value = "delete";
-                delBtn.onclick = function () {
-                    del(this);
-                }
-                contentCell.appendChild(delBtn);
-
+                $('#tbl1').append(content);
                 count++;
             });
 
-            function del(obj) {
-                var row = obj.parentNode.parentNode;
-                row.parentNode.removeChild(row);
-            }
+            $('body').on('click','.item-delete',function(event){
+                $(this).closest('tr').remove();
+                count--;
+                });
 
+
+
+           
             $("#upload").click(function () {
                 var arr = [];
                 for (var i = 0; i != count; i++) {
@@ -230,29 +292,6 @@
         });
     </script>
 
-</head>
-<body>
-<div class="box">
-    <div class="login-boxs">
-        <div class="login-content-input">
-            <fieldset>
-                <legend>
-                    haospital
-                </legend>
-                <div>
-                    <input class="one_w one_y" type="button" id="add" value="add"/>
-                </div>
-                <div>
-                    &nbsp;<label>Class</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label>Drug name</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label>Value </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<label>Number</label>
-                </div>
-
-                <table id="tbl1">
-
-                </table>
-            </fieldset>
-            <div class="right"><input class="one_w one_y" type="submit" id="upload" value="upload"/></div>
-        </div>
-    </div>
-</div>
-</body>
+  
+        </body>
 </html>

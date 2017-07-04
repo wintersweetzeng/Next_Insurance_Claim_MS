@@ -37,6 +37,9 @@ public class InsuranceMainAjaxController extends AbstractAjaxController {
                 List<ExpenseDetailModel> result = objectMapper.readValue(medResultJson, objectMapper.getTypeFactory()
                         .constructCollectionType(List.class, ExpenseDetailModel.class));
 
+                //todo:  data validate check
+                //XXXXXX
+
                 AjaxResult ajaxResult = AjaxResult.success();
                 ajaxResult.addData("json", medResultJson);
                 return ajaxResult;
