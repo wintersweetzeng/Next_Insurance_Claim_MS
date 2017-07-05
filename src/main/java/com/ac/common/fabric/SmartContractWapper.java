@@ -12,12 +12,11 @@ import org.hyperledger.fabric.sdk.BlockEvent.TransactionEvent;
 import org.hyperledger.fabric.sdk.ChaincodeID;
 import org.hyperledger.fabric.sdk.Peer;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.DefaultResourceLoader;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 
 import com.ac.common.constant.SmartContractConstant;
 import com.ac.common.fabric.model.ChainCodeResultModel;
+import com.ac.common.fabric.utils.IOUtils;
 
 /**
  * Created by zhenchao.bi on 6/27/2017.
@@ -36,7 +35,7 @@ public class SmartContractWapper {
 	@Autowired
 	private ChannelWapper channel;
 
-	private ResourceLoader loader = new DefaultResourceLoader();
+	//private ResourceLoader loader = new DefaultResourceLoader();
 
 	@PostConstruct
 	private void init() throws Exception {
@@ -61,7 +60,8 @@ public class SmartContractWapper {
 
 		try {
 			// smartContract\hospital
-			File scFile = loader.getResource("classpath:/smartContract/hospital").getFile();
+			// File scFile = loader.getResource("classpath:/smartContract/hospital").getFile();
+			File scFile = IOUtils.getFileFromClasspath("/smartContract/hospital");
 			return channel.installChaincode(HOSPITAL_CHAINCODE_ID, scFile, peers);
 		} catch (Exception ex) {
 			// log
@@ -73,8 +73,9 @@ public class SmartContractWapper {
 
 		try {
 			// smartContract\hospital
-			File scFile = loader.getResource("classpath:/endorsementPolicy/hospital/chaincodeendorsementpolicy.yaml")
-					.getFile();
+			File scFile = IOUtils.getFileFromClasspath("/endorsementPolicy/hospital/chaincodeendorsementpolicy.yaml");
+			//File scFile = loader.getResource("classpath:/endorsementPolicy/hospital/chaincodeendorsementpolicy.yaml")
+			//		.getFile();
 
 			return channel.instantChaincode(HOSPITAL_CHAINCODE_ID, scFile, peers, "init", new String[] { "test" });
 
@@ -88,7 +89,8 @@ public class SmartContractWapper {
 
 		try {
 			// smartContract\hospital
-			File scFile = loader.getResource("classpath:/smartContract/insurance").getFile();
+			//File scFile = loader.getResource("classpath:/smartContract/insurance").getFile();
+			File scFile = IOUtils.getFileFromClasspath("/smartContract/insurance");
 			return channel.installChaincode(INDURANCE_CHAINCODE_ID, scFile, peers);
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -101,7 +103,8 @@ public class SmartContractWapper {
 
 		try {
 			// smartContract\hospital
-			File scFile = loader.getResource("classpath:/smartContract/customer").getFile();
+			//File scFile = loader.getResource("classpath:/smartContract/customer").getFile();
+			File scFile = IOUtils.getFileFromClasspath("/smartContract/customer");
 			return channel.installChaincode(INDURANCE_CHAINCODE_ID, scFile, peers);
 		} catch (Exception ex) {
 			ex.printStackTrace();

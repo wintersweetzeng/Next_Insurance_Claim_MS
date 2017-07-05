@@ -35,12 +35,12 @@ import org.hyperledger.fabric.sdk.exception.ProposalException;
 import org.hyperledger.fabric.sdk.exception.TransactionException;
 import org.hyperledger.fabric.sdk.security.CryptoSuite;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.DefaultResourceLoader;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ResourceUtils;
 
 import com.ac.common.fabric.hfc.OrgInfo;
 import com.ac.common.fabric.model.ChainCodeResultModel;
+import com.ac.common.fabric.utils.IOUtils;
 import com.google.common.collect.Lists;
 
 @Service
@@ -56,7 +56,7 @@ public class ChannelWapper {
 	 */
 	private Channel channel;
 
-	private ResourceLoader loader = new DefaultResourceLoader();
+	//private ResourceLoader loader = new DefaultResourceLoader();
 
 	@PostConstruct
 	private void init() throws Exception {
@@ -234,7 +234,7 @@ public class ChannelWapper {
 		// orderers.remove(anOrderer);
 
 		ChannelConfiguration channelConfiguration = new ChannelConfiguration(
-				loader.getResource("classpath:/keyStore/insurance/channel/foo.tx").getFile());
+				IOUtils.getFileFromClasspath("/keyStore/insurance/channel/foo.tx"));
 
 		// client.getChannel(name)
 		Channel newChannel = null;
@@ -296,8 +296,8 @@ public class ChannelWapper {
 
 	private Properties getPeerProperties(String orgName, String peerName) throws IOException {
 
-		File cert = loader.getResource(String.format("classpath:/tls/peer/%s/%s/server.crt", orgName, peerName))
-				.getFile();
+		//File cert = ResourceUtils.getFile(String.format("classpath:/tls/peer/%s/%s/server.crt", orgName, peerName));
+		File cert = IOUtils.getFileFromClasspath(String.format("/tls/peer/%s/%s/server.crt", orgName, peerName));
 		if (!cert.exists()) {
 			throw new RuntimeException(String.format("Missing cert file for: %s. Could not find at location: %s",
 					peerName, cert.getAbsolutePath()));
@@ -314,7 +314,8 @@ public class ChannelWapper {
 
 	private Properties getOrdererProperties(String name) throws IOException {
 
-		File cert = loader.getResource("classpath:/tls/orderer/server.crt").getFile();
+		//File cert = ResourceUtils.getFile("classpath:/tls/orderer/server.crt");
+		File cert = IOUtils.getFileFromClasspath("/tls/orderer/server.crt");
 		if (!cert.exists()) {
 			throw new RuntimeException(String.format("Missing cert file for: %s. Could not find at location: %s", name,
 					cert.getAbsolutePath()));
