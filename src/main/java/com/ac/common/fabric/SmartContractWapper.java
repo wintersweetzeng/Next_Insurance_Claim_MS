@@ -1,22 +1,22 @@
 package com.ac.common.fabric;
 
-import java.io.File;
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.stream.Collectors;
-
-import javax.annotation.PostConstruct;
-
+import com.ac.common.constant.SmartContractConstant;
+import com.ac.common.fabric.model.ChainCodeResultModel;
+import com.ac.common.fabric.utils.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.hyperledger.fabric.sdk.BlockEvent.TransactionEvent;
 import org.hyperledger.fabric.sdk.ChaincodeID;
 import org.hyperledger.fabric.sdk.Peer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 
-import com.ac.common.constant.SmartContractConstant;
-import com.ac.common.fabric.model.ChainCodeResultModel;
-import com.ac.common.fabric.utils.IOUtils;
+import javax.annotation.PostConstruct;
+import java.io.File;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 /**
  * Created by zhenchao.bi on 6/27/2017.
@@ -35,7 +35,7 @@ public class SmartContractWapper {
 	@Autowired
 	private ChannelWapper channel;
 
-	//private ResourceLoader loader = new DefaultResourceLoader();
+	private ResourceLoader loader = new DefaultResourceLoader();
 
 	@PostConstruct
 	private void init() throws Exception {
@@ -60,8 +60,8 @@ public class SmartContractWapper {
 
 		try {
 			// smartContract\hospital
-			// File scFile = loader.getResource("classpath:/smartContract/hospital").getFile();
-			File scFile = IOUtils.getFileFromClasspath("/smartContract/hospital");
+			 File scFile = loader.getResource("classpath:/smartContract/hospital").getFile();
+			//File scFile = IOUtils.getFileFromClasspath("/smartContract/hospital");
 			return channel.installChaincode(HOSPITAL_CHAINCODE_ID, scFile, peers);
 		} catch (Exception ex) {
 			// log

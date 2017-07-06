@@ -7,8 +7,8 @@ public interface SmartContractConstant {
 
     class Hospital {
 
-        public static final String CHAINCODE_NAME = "hospitalExpense";
-        public static final String CHAINCODE_VERSION = "2.0";
+        public static final String CHAINCODE_NAME = "hospitalExpense_cc_100";
+        public static final String CHAINCODE_VERSION = "1.0";
         public static final String CHAINCODE_PATH = "hospital";
     }
 
