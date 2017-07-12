@@ -33,14 +33,14 @@ public class HospitalFabricServiceTest {
 	@Autowired
 	private ChannelWapper channel;
 
-	// @Test
+	//@Test
 	public void testInstall() throws Exception {
 		System.out.println("***********************install smartcontract Start***********************");
 		smartContractWapper.installHospitalSC();
 		System.out.println("***********************install smartcontract End***********************");
 	}
 
-	// @Test
+//	 @Test
 	public void testInstant() throws Exception {
 		System.out.println("***********************instant smartcontract Start***********************");
 		smartContractWapper.instantHospitalSC();
@@ -80,7 +80,7 @@ public class HospitalFabricServiceTest {
 		System.out.println("***********************invoke smartcontract end***********************");
 	}
 
-	@Test
+	//@Test
 	public void testQuery() {
 		System.out.println("***********************query smartcontract Start***********************");
 

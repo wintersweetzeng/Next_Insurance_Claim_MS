@@ -35,8 +35,9 @@ import org.hyperledger.fabric.sdk.exception.ProposalException;
 import org.hyperledger.fabric.sdk.exception.TransactionException;
 import org.hyperledger.fabric.sdk.security.CryptoSuite;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ResourceUtils;
 
 import com.ac.common.fabric.hfc.OrgInfo;
 import com.ac.common.fabric.model.ChainCodeResultModel;
@@ -56,7 +57,7 @@ public class ChannelWapper {
 	 */
 	private Channel channel;
 
-	//private ResourceLoader loader = new DefaultResourceLoader();
+	private ResourceLoader loader = new DefaultResourceLoader();
 
 	@PostConstruct
 	private void init() throws Exception {
@@ -141,7 +142,7 @@ public class ChannelWapper {
 		}
 
 		if (CollectionUtils.isNotEmpty(successful)) {
-			return channel.sendTransaction(successful);
+			return channel.sendTransaction(successful, channel.getOrderers());
 		}
 
 		return null;
@@ -224,8 +225,10 @@ public class ChannelWapper {
 		Collection<Orderer> orderers = Lists.newArrayList();
 		for (String orderName : insuranceOrg.getOrdererNames()) {
 			Properties ordererProperties = this.getOrdererProperties(orderName);
-			ordererProperties.put("grpc.NettyChannelBuilderOption.enableKeepAlive",
-					new Object[] { true, 1L, TimeUnit.SECONDS, 1L, TimeUnit.SECONDS });
+			
+            ordererProperties.put("grpc.NettyChannelBuilderOption.keepAliveTime", new Object[] {5L, TimeUnit.MINUTES});
+            ordererProperties.put("grpc.NettyChannelBuilderOption.keepAliveTimeout", new Object[] {8L, TimeUnit.SECONDS});
+            
 			orderers.add(client.newOrderer(orderName, insuranceOrg.getOrdererLocation(orderName), ordererProperties));
 		}
 
@@ -233,8 +236,10 @@ public class ChannelWapper {
 		Orderer anOrderer = orderers.iterator().next();
 		// orderers.remove(anOrderer);
 
-		ChannelConfiguration channelConfiguration = new ChannelConfiguration(
-				IOUtils.getFileFromClasspath("/keyStore/insurance/channel/foo.tx"));
+		//File tx = loader.getResource("classpath:/keyStore/insurance/channel/foo.tx").getFile();
+		File tx = new File("c:/foo.tx");
+		ChannelConfiguration channelConfiguration = new ChannelConfiguration(tx);
+		
 
 		// client.getChannel(name)
 		Channel newChannel = null;
@@ -243,11 +248,12 @@ public class ChannelWapper {
 			newChannel = client.newChannel(channelName);
 			newChannel.addOrderer(anOrderer);
 		//	newChannel = client.newChannel(channelName, anOrderer, channelConfiguration,
-		//			client.getChannelConfigurationSignature(channelConfiguration, insuranceOrg.getPeerAdmin()));
+			//		client.getChannelConfigurationSignature(channelConfiguration, insuranceOrg.getPeerAdmin()));
+			
+			 
 		} catch (Exception ex) {
-			// ex.printStackTrace();
-			newChannel = client.newChannel(channelName);
-			newChannel.addOrderer(anOrderer);
+			ex.printStackTrace();
+			throw ex;
 		}
 
 		// join insureance peer to channel
