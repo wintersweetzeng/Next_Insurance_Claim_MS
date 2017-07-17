@@ -3,212 +3,231 @@
 <!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
 <!--[if !IE]><!-->
 <html lang="en">
-    <!--<![endif]-->
-    <!-- BEGIN HEAD -->
+<!--<![endif]-->
+<!-- BEGIN HEAD -->
 
-    <head>
-        <meta charset="utf-8" />
-        <title>Detail</title>
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta content="width=device-width, initial-scale=1" name="viewport" />
-        <meta content="" name="description" />
-        <meta content="" name="author" />
-        <link href="../assets/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
-        <link href="../assets//plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css" />
-        <link href="../assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-        <link href="../assets/plugins/uniform/css/uniform.default.css" rel="stylesheet" type="text/css" />
-        <link href="../assets/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css" />
-        <link href="../assets/css/components-md.min.css" rel="stylesheet" id="style_components" type="text/css" />
-        <link href="../assets/css/plugins-md.min.css" rel="stylesheet" type="text/css" />
-        <link href="../assets/layouts/layout3/css/layout.css" rel="stylesheet" type="text/css" />
-        <link href="../assets/layouts/layout3/css/themes/default.min.css" rel="stylesheet" type="text/css" id="style_color" />
-        <link href="../assets/layouts/layout3/css/custom.min.css" rel="stylesheet" type="text/css" />
-        <link rel="shortcut icon" href="favicon.ico" /> </head>
-    <!-- END HEAD -->
+<head>
+<meta charset="utf-8" />
+<title>Detail</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta content="width=device-width, initial-scale=1" name="viewport" />
+<meta content="" name="description" />
+<meta content="" name="author" />
+<link href="../assets/plugins/font-awesome/css/font-awesome.min.css"
+	rel="stylesheet" type="text/css" />
+<link
+	href="../assets//plugins/simple-line-icons/simple-line-icons.min.css"
+	rel="stylesheet" type="text/css" />
+<link href="../assets/plugins/bootstrap/css/bootstrap.min.css"
+	rel="stylesheet" type="text/css" />
+<link href="../assets/plugins/uniform/css/uniform.default.css"
+	rel="stylesheet" type="text/css" />
+<link
+	href="../assets/plugins/bootstrap-switch/css/bootstrap-switch.min.css"
+	rel="stylesheet" type="text/css" />
+<link href="../assets/css/components-md.min.css" rel="stylesheet"
+	id="style_components" type="text/css" />
+<link href="../assets/css/plugins-md.min.css" rel="stylesheet"
+	type="text/css" />
+<link href="../assets/layouts/layout3/css/layout.css" rel="stylesheet"
+	type="text/css" />
+<link href="../assets/layouts/layout3/css/themes/default.min.css"
+	rel="stylesheet" type="text/css" id="style_color" />
+<link href="../assets/layouts/layout3/css/custom.min.css"
+	rel="stylesheet" type="text/css" />
+<link rel="shortcut icon" href="favicon.ico" />
+</head>
+<!-- END HEAD -->
 
-    <body class="page-container-bg-solid page-boxed page-md">
-        <!-- BEGIN HEADER -->
-        <div class="page-header">
-            <!-- BEGIN HEADER TOP -->
-            <div class="page-header-top">
-                <div class="container">
-                    <!-- BEGIN LOGO -->
-                    <div class="page-logo">
-                        <a href="#">
-                            <img style="width:300px" src="../assets/images/accslogoc.png" alt="logo" class="logo-default" />
-                        </a>
-                    </div>
-                    <!-- END LOGO -->
-                    <!-- BEGIN TOP NAVIGATION MENU -->
-                    <div class="top-menu">
-                        <ul class="nav navbar-nav pull-right">
-                            <!-- BEGIN NOTIFICATION DROPDOWN -->
-                            <li class="dropdown dropdown-extended dropdown-notification dropdown-dark" id="header_notification_bar">
-                                <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-                                    <i class="icon-bell"></i>
-                                    <span class="badge badge-default">7</span>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li class="external">
-                                    </li>
-                                    <li>
-                                        <ul class="dropdown-menu-list scroller" style="height: 250px;" data-handle-color="#637283">
-                                            
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                            <!-- END NOTIFICATION DROPDOWN -->
-                            <!-- BEGIN TODO DROPDOWN -->
-                            <li class="dropdown dropdown-extended dropdown-tasks dropdown-dark" id="header_task_bar">
-                                <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-                                    <i class="icon-calendar"></i>
-                                    <span class="badge badge-default">3</span>
-                                </a>
-                                <ul class="dropdown-menu extended tasks">
-                                    <li class="external">
-                                    </li>
-                                    <li>
-                                        <ul class="dropdown-menu-list scroller" style="height: 275px;" data-handle-color="#637283">
-                                           
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                            <!-- END TODO DROPDOWN -->
-                            <li class="droddown dropdown-separator">
-                                <span class="separator"></span>
-                            </li>
-                            <!-- BEGIN INBOX DROPDOWN -->
-                            <li class="dropdown dropdown-extended dropdown-inbox dropdown-dark" id="header_inbox_bar">
-                                <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-                                    <span class="circle">3</span>
-                                    <span class="corner"></span>
-                                </a>
-                            </li>
-                            <!-- END INBOX DROPDOWN -->
-                            <!-- BEGIN USER LOGIN DROPDOWN -->
-                            <li class="dropdown dropdown-user dropdown-dark">
-                                <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-                                    <img alt="" class="img-circle" src="../assets/img/avatar.jpg">
-                                    <span class="username username-hide-mobile">某某</span>
-                                </a>
-                                                           </li>
-                            <!-- END USER LOGIN DROPDOWN -->
-                            <!-- BEGIN QUICK SIDEBAR TOGGLER -->
-                            <li class="dropdown dropdown-extended quick-sidebar-toggler">
-                                <span class="sr-only">Toggle Quick Sidebar</span>
-                                <i class="icon-logout"></i>
-                            </li>
-                            <!-- END QUICK SIDEBAR TOGGLER -->
-                        </ul>
-                    </div>
-                    <!-- END TOP NAVIGATION MENU -->
-                </div>
-            </div>
-            <!-- END HEADER TOP -->
-            <!-- BEGIN HEADER MENU -->
-            <div class="page-header-menu">
-                <div class="container">
-                    <!-- BEGIN HEADER SEARCH BOX -->
-                    <form class="search-form" action="" method="GET">
-                        <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Search" name="query">
-                            <span class="input-group-btn">
-                                <a href="javascript:;" class="btn submit">
-                                    <i class="icon-magnifier"></i>
-                                </a>
-                            </span>
-                        </div>
-                    </form>
-                    <!-- END HEADER SEARCH BOX -->
-                    <!-- BEGIN MEGA MENU -->
-                    <div class="hor-menu  ">
-                        <ul class="nav navbar-nav">
-                            <li class="menu-dropdown classic-menu-dropdown ">
-                                <a href="javascript:;"> Detail
-                                    <span class="arrow"></span>
-                                </a>
-                             </li>
-                        </ul>
-                    </div>
-                    <!-- END MEGA MENU -->
-                </div>
-            </div>
-            <!-- END HEADER MENU -->
-        </div>
-        <!-- END HEADER -->
-        <!-- BEGIN CONTAINER -->
-        <div class="page-container">
-            <!-- BEGIN CONTENT -->
-            <div class="page-content-wrapper">
-                <!-- BEGIN CONTENT BODY -->
-                <!-- BEGIN PAGE HEAD-->
-                <div class="page-head">
-                    <div class="container">
-                        <!-- BEGIN PAGE TITLE -->
-                        <div class="page-title">
-                            <h1>Detail                                <small></small>
-                            </h1>
-                        </div>
-                        <!-- END PAGE TITLE -->
-                    </div>
-                </div>
-                <!-- END PAGE HEAD-->
-                <!-- BEGIN PAGE CONTENT BODY -->
-                <div class="page-content">
-                    <div class="container">
-                        <!-- BEGIN PAGE BREADCRUMBS -->
-                        <ul class="page-breadcrumb breadcrumb">
-                            <li>
-                                <a href="#">Home</a>
-                                <i class="fa fa-circle"></i>
-                            </li>
-                            
-                            <li>
-                                <span>Detail</span>
-                            </li>
-                        </ul>
-                        <!-- END PAGE BREADCRUMBS -->
-                        <!-- BEGIN PAGE CONTENT INNER -->
-                        <div class="page-content-inner">
-                            <div class="row">
-                                <div class="col-md-12">
-                                <!-- BEGIN SAMPLE TABLE PORTLET-->
-                                    <div class="portlet light"> 
-                                        <div class="portlet-title">
-                                            <div class="caption">
-                                                <i class="icon-social-dribbble font-green"></i>
-                                                <span class="caption-subject font-green bold uppercase">Detail Information</span>
-                                            </div>
-                                                                                    </div>
-                                        <div class="portlet-body flip-scroll">
-                                            <table class="table table-bordered table-striped table-condensed flip-content">
-                                                <thead class="flip-content">
-                                                    <tr>
-                                                        	<td><label class="label-control font" id="id">id</label></td>
-			<td><label class="label-control font" id="name">name</label></td>
-			<td><label class="label-control font" id="price">price(RMB)</label></td>
-			<td><label class="label-control font" id="detail"><a>detail</a></label></td>
+<body class="page-container-bg-solid page-boxed page-md">
+	<!-- BEGIN HEADER -->
+	<div class="page-header">
+		<!-- BEGIN HEADER TOP -->
+		<div class="page-header-top">
+			<div class="container">
+				<!-- BEGIN LOGO -->
+				<div class="page-logo">
+					<a href="#"> <img style="width: 300px"
+						src="../assets/images/accslogoc.png" alt="logo"
+						class="logo-default" />
+					</a>
+				</div>
+				<!-- END LOGO -->
+				<!-- BEGIN TOP NAVIGATION MENU -->
+				<div class="top-menu">
+					<ul class="nav navbar-nav pull-right">
+						<!-- BEGIN NOTIFICATION DROPDOWN -->
+						<li
+							class="dropdown dropdown-extended dropdown-notification dropdown-dark"
+							id="header_notification_bar"><a href="javascript:;"
+							class="dropdown-toggle" data-toggle="dropdown"
+							data-hover="dropdown" data-close-others="true"> <i
+								class="icon-bell"></i> <span class="badge badge-default">7</span>
+						</a>
+							<ul class="dropdown-menu">
+								<li class="external"></li>
+								<li>
+									<ul class="dropdown-menu-list scroller" style="height: 250px;"
+										data-handle-color="#637283">
 
-                                                                                                           </tr>
-                                                </thead>
-                                                <tbody id="tbody-result">
+									</ul>
+								</li>
+							</ul></li>
+						<!-- END NOTIFICATION DROPDOWN -->
+						<!-- BEGIN TODO DROPDOWN -->
+						<li
+							class="dropdown dropdown-extended dropdown-tasks dropdown-dark"
+							id="header_task_bar"><a href="javascript:;"
+							class="dropdown-toggle" data-toggle="dropdown"
+							data-hover="dropdown" data-close-others="true"> <i
+								class="icon-calendar"></i> <span class="badge badge-default">3</span>
+						</a>
+							<ul class="dropdown-menu extended tasks">
+								<li class="external"></li>
+								<li>
+									<ul class="dropdown-menu-list scroller" style="height: 275px;"
+										data-handle-color="#637283">
 
-                                                	<tr>
-			<td><label class="label-control font" id="medicine_id">1</label></td>
-			<td><label class="label-control font" id="medicine_name">a</label></td>
-			<td><label class="label-control font" id="price">222</label></td>
-			<td><button type="button" class="btn blue-madison detail" data-toggle="modal" href="#responsive">Detail</button></td>
-		</tr>
-		<tr>
-			<td><label class="label-control font" id="medicine_id">2</label></td>
-			<td><label class="label-control font" id="medicine_name">b</label></td>
-			<td><label class="label-control font" id="price">333</label></td>
-			<td><button type="button" class="btn blue-madison detail" data-toggle="modal" href="#responsive">Detail</button>		      
-            </tr>
+									</ul>
+								</li>
+							</ul></li>
+						<!-- END TODO DROPDOWN -->
+						<li class="droddown dropdown-separator"><span
+							class="separator"></span></li>
+						<!-- BEGIN INBOX DROPDOWN -->
+						<li
+							class="dropdown dropdown-extended dropdown-inbox dropdown-dark"
+							id="header_inbox_bar"><a href="javascript:;"
+							class="dropdown-toggle" data-toggle="dropdown"
+							data-hover="dropdown" data-close-others="true"> <span
+								class="circle">3</span> <span class="corner"></span>
+						</a></li>
+						<!-- END INBOX DROPDOWN -->
+						<!-- BEGIN USER LOGIN DROPDOWN -->
+						<li class="dropdown dropdown-user dropdown-dark"><a
+							href="javascript:;" class="dropdown-toggle"
+							data-toggle="dropdown" data-hover="dropdown"
+							data-close-others="true"> <img alt="" class="img-circle"
+								src="../assets/img/avatar.jpg"> <span
+								class="username username-hide-mobile">某某</span>
+						</a></li>
+						<!-- END USER LOGIN DROPDOWN -->
+						<!-- BEGIN QUICK SIDEBAR TOGGLER -->
+						<li class="dropdown dropdown-extended quick-sidebar-toggler">
+							<span class="sr-only">Toggle Quick Sidebar</span> <i
+							class="icon-logout"></i>
+						</li>
+						<!-- END QUICK SIDEBAR TOGGLER -->
+					</ul>
+				</div>
+				<!-- END TOP NAVIGATION MENU -->
+			</div>
+		</div>
+		<!-- END HEADER TOP -->
+		<!-- BEGIN HEADER MENU -->
+		<div class="page-header-menu">
+			<div class="container">
+				<!-- BEGIN HEADER SEARCH BOX -->
+				<form class="search-form" action="" method="GET">
+					<div class="input-group">
+						<input type="text" class="form-control" placeholder="Search"
+							name="query"> <span class="input-group-btn"> <a
+							href="javascript:;" class="btn submit"> <i
+								class="icon-magnifier"></i>
+						</a>
+						</span>
+					</div>
+				</form>
+				<!-- END HEADER SEARCH BOX -->
+				<!-- BEGIN MEGA MENU -->
+				<div class="hor-menu  ">
+					<ul class="nav navbar-nav">
+						<li class="menu-dropdown classic-menu-dropdown "><a
+							href="javascript:;"> Detail <span class="arrow"></span>
+						</a></li>
+					</ul>
+				</div>
+				<!-- END MEGA MENU -->
+			</div>
+		</div>
+		<!-- END HEADER MENU -->
+	</div>
+	<!-- END HEADER -->
+	<!-- BEGIN CONTAINER -->
+	<div class="page-container">
+		<!-- BEGIN CONTENT -->
+		<div class="page-content-wrapper">
+			<!-- BEGIN CONTENT BODY -->
+			<!-- BEGIN PAGE HEAD-->
+			<div class="page-head">
+				<div class="container">
+					<!-- BEGIN PAGE TITLE -->
+					<div class="page-title">
+						<h1>
+							Detail <small></small>
+						</h1>
+					</div>
+					<!-- END PAGE TITLE -->
+				</div>
+			</div>
+			<!-- END PAGE HEAD-->
+			<!-- BEGIN PAGE CONTENT BODY -->
+			<div class="page-content">
+				<div class="container">
+					<!-- BEGIN PAGE BREADCRUMBS -->
+					<ul class="page-breadcrumb breadcrumb">
+						<li><a href="#">Home</a> <i class="fa fa-circle"></i></li>
 
-            	<!--<tr>
+						<li><span>Detail</span></li>
+					</ul>
+					<!-- END PAGE BREADCRUMBS -->
+					<!-- BEGIN PAGE CONTENT INNER -->
+					<div class="page-content-inner">
+						<div class="row">
+							<div class="col-md-12">
+								<!-- BEGIN SAMPLE TABLE PORTLET-->
+								<div class="portlet light">
+									<div class="portlet-title">
+										<div class="caption">
+											<i class="icon-social-dribbble font-green"></i> <span
+												class="caption-subject font-green bold uppercase">Detail
+												Information</span>
+										</div>
+									</div>
+									<div class="portlet-body flip-scroll">
+										<table
+											class="table table-bordered table-striped table-condensed flip-content">
+											<thead class="flip-content">
+												<tr>
+													<td><label class="label-control font" id="id">id</label></td>
+													<td><label class="label-control font" id="name">name</label></td>
+													<td><label class="label-control font" id="price">price(RMB)</label></td>
+													<td><label class="label-control font" id="detail"><a>detail</a></label></td>
+
+												</tr>
+											</thead>
+											<tbody id="tbody-result">
+
+												<tr>
+													<td><label class="label-control font" id="medicine_id">1</label></td>
+													<td><label class="label-control font"
+														id="medicine_name">a</label></td>
+													<td><label class="label-control font" id="price">222</label></td>
+													<td><button type="button"
+															class="btn blue-madison detail" data-toggle="modal"
+															href="#responsive">Detail</button></td>
+												</tr>
+												<tr>
+													<td><label class="label-control font" id="medicine_id">2</label></td>
+													<td><label class="label-control font"
+														id="medicine_name">b</label></td>
+													<td><label class="label-control font" id="price">333</label></td>
+													<td><button type="button"
+															class="btn blue-madison detail" data-toggle="modal"
+															href="#responsive">Detail</button>
+												</tr>
+
+												<!--<tr>
 			<td align="left"><input class="button green" type="button" id="submit2" value="submit" style="width: 100px" /></td>
 			<td></td>
 			<td></td>
@@ -216,90 +235,103 @@
         </tr>-->
 
 
-                                               
-                                                    
-                                                </tbody>
-                                            </table>
-                                            
-                                        </div>
-                                    </div>
-                                    <!-- END SAMPLE TABLE PORTLET-->
-                                 
-                                </div>
-                            </div>
-                        </div>
-                        <!-- END PAGE CONTENT INNER -->
-                    </div>
-                </div>
-                <!-- END PAGE CONTENT BODY -->
-                <!-- END CONTENT BODY -->
-            </div>
-            <!-- END CONTENT -->
-          
-        </div>
-        <!-- END CONTAINER -->
-        <div class="page-footer">
-            <div class="container"> 2017 &copy; Accenture.
-            </div>
-        </div>
-        <div class="scroll-to-top">
-            <i class="icon-arrow-up"></i>
-        </div>
-        <!-- END FOOTER -->
-
-         <div id="responsive" class="modal fade" tabindex="-1" aria-hidden="true">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-                                                            <h4 class="modal-title">Detail Information</h4>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <div class="scroller" style="height:300px" data-always-visible="1" data-rail-visible1="1">
-                                                                <table class="table table-condensed table-hover">
-
-                                                                	<tr>
-			        		<td>id</td>
-			        		<td>name</td>
-			        		<td>price</td>
-			        		<td>number</td>
-			        	</tr>
-			        	<tr>
-			        		<td>1</td>
-			        		<td>name</td>
-			        		<td>11</td>
-			        		<td>2</td>
-			        	</tr>
-			        	<tr>
-			        		<td>2</td>
-			        		<td>name</td>
-			        		<td>11</td>
-			        		<td>3</td>
-			        	</tr>
-                    </table>
 
 
-                                                                                                                          
-                                                            </div>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" data-dismiss="modal" class="btn dark btn-outline">Close</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+											</tbody>
+										</table>
 
-         <script src="http://code.jquery.com/jquery-latest.js"></script>
-             <script src="../assets/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
-        <script src="../assets/plugins/js.cookie.min.js" type="text/javascript"></script>
-        <script src="../assets/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js" type="text/javascript"></script>
-        <script src="../assets/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
-        <script src="../assets/plugins/jquery.blockui.min.js" type="text/javascript"></script>
-        <script src="../assets/plugins/uniform/jquery.uniform.min.js" type="text/javascript"></script>
-        <script src="../assets/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
-        <script src="../assets/plugins/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>
-        <!-- END PAGE LEVEL PLUGINS -->
-        <script>
+									</div>
+								</div>
+								<!-- END SAMPLE TABLE PORTLET-->
+
+							</div>
+						</div>
+					</div>
+					<!-- END PAGE CONTENT INNER -->
+				</div>
+			</div>
+			<!-- END PAGE CONTENT BODY -->
+			<!-- END CONTENT BODY -->
+		</div>
+		<!-- END CONTENT -->
+
+	</div>
+	<!-- END CONTAINER -->
+	<div class="page-footer">
+		<div class="container">2017 &copy; Accenture.</div>
+	</div>
+	<div class="scroll-to-top">
+		<i class="icon-arrow-up"></i>
+	</div>
+	<!-- END FOOTER -->
+
+	<div id="responsive" class="modal fade" tabindex="-1"
+		aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true"></button>
+					<h4 class="modal-title">Detail Information</h4>
+				</div>
+				<div class="modal-body">
+					<div class="scroller" style="height: 300px" data-always-visible="1"
+						data-rail-visible1="1">
+						<table class="table table-condensed table-hover">
+
+							<tr>
+								<td>id</td>
+								<td>name</td>
+								<td>price</td>
+								<td>number</td>
+							</tr>
+							<tr>
+								<td>1</td>
+								<td>name</td>
+								<td>11</td>
+								<td>2</td>
+							</tr>
+							<tr>
+								<td>2</td>
+								<td>name</td>
+								<td>11</td>
+								<td>3</td>
+							</tr>
+						</table>
+
+
+
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" data-dismiss="modal"
+						class="btn dark btn-outline">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="/assets/jquery-1.10.2.js"></script>
+	<script src="../assets/plugins/bootstrap/js/bootstrap.min.js"
+		type="text/javascript"></script>
+	<script src="../assets/plugins/js.cookie.min.js" type="text/javascript"></script>
+	<script
+		src="../assets/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js"
+		type="text/javascript"></script>
+	<script
+		src="../assets/plugins/jquery-slimscroll/jquery.slimscroll.min.js"
+		type="text/javascript"></script>
+	<script src="../assets/plugins/jquery.blockui.min.js"
+		type="text/javascript"></script>
+	<script src="../assets/plugins/uniform/jquery.uniform.min.js"
+		type="text/javascript"></script>
+	<script
+		src="../assets/plugins/bootstrap-switch/js/bootstrap-switch.min.js"
+		type="text/javascript"></script>
+	<script src="../assets/plugins/jquery-ui/jquery-ui.min.js"
+		type="text/javascript"></script>
+	<!-- END PAGE LEVEL PLUGINS -->
+	<script>
 $(function(){
 	$("#cancel2").click(function(){
 		window.location.href="main.html";
@@ -325,6 +357,6 @@ $(function(){
 });
         </script>
 
-  
-        </body>
+
+</body>
 </html>
