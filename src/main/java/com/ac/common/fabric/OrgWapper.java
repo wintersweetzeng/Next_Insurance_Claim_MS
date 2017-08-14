@@ -11,6 +11,8 @@ import org.apache.commons.lang.StringUtils;
 import org.hyperledger.fabric.sdk.security.CryptoSuite;
 import org.hyperledger.fabric_ca.sdk.HFCAClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 
 import com.ac.common.fabric.config.HospitalInfoConfig;
@@ -42,7 +44,7 @@ public class OrgWapper {
     @Autowired
     private HFCKeyStore hfcKeyStore;
 
-    //private ResourceLoader loader = new DefaultResourceLoader();
+    private ResourceLoader loader = new DefaultResourceLoader();
 
     @PostConstruct
     private void init() throws Exception {
@@ -92,8 +94,8 @@ public class OrgWapper {
         //CAproperty
         String caName = String.join("", "ca.", config.getDomname(), "-cert.pem");
 
-        //File caPath = loader.getResource("classpath:/keyStore/" + config.getId() + "/ca/" + caName).getFile();
-        File caPath = IOUtils.getFileFromClasspath("/keyStore/" + config.getId() + "/ca/" + caName);
+        File caPath = loader.getResource("classpath:/keyStore/" + config.getId() + "/ca/" + caName).getFile();
+        //File caPath = IOUtils.getFileFromClasspath("/keyStore/" + config.getId() + "/ca/" + caName);
         Properties properties = new Properties();
         properties.setProperty("pemFile", caPath.getAbsolutePath());
         properties.setProperty("allowAllHostNames", "true");
