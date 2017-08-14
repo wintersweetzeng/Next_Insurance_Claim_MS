@@ -247,13 +247,14 @@ public class ChannelWapper {
 			
 			newChannel = client.newChannel(channelName);
 			newChannel.addOrderer(anOrderer);
+			
 		//	newChannel = client.newChannel(channelName, anOrderer, channelConfiguration,
 			//		client.getChannelConfigurationSignature(channelConfiguration, insuranceOrg.getPeerAdmin()));
 			
 			 
 		} catch (Exception ex) {
 			ex.printStackTrace();
-			throw ex;
+		
 		}
 
 		// join insureance peer to channel
@@ -290,7 +291,8 @@ public class ChannelWapper {
 			insuranceOrg.addPeer(peer);
 
 			try {
-				newChannel.joinPeer(peer);
+				newChannel.addPeer(peer);
+				//newChannel.joinPeer(peer);
 			} catch (Exception ex) {
 				// ex.printStackTrace();
 				newChannel.addPeer(peer);
